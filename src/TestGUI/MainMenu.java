@@ -17,6 +17,7 @@ public class MainMenu extends JFrame {
 	private JPanel menuPanel;
 	private JPanel productPanel;
 	private JPanel orderPanel;
+	private JPanel loanMenu;
 	private CustomerMenu customerMenu;
 	private ProductMenu productMenu;
 
@@ -39,6 +40,7 @@ public class MainMenu extends JFrame {
 		menuPanel = new JPanel();
 		customerMenu = new CustomerMenu(parentPanel, cl);
 		productMenu = new ProductMenu(parentPanel, cl);
+		loanMenu = new LoanMenu(parentPanel,cl);
 		orderPanel = new JPanel();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,8 +53,8 @@ public class MainMenu extends JFrame {
 		parentPanel.add(menuPanel, "1");
 		parentPanel.add(customerMenu, "2");
 		parentPanel.add(productMenu, "3");
-		parentPanel.add(orderPanel, "4");
-
+		parentPanel.add(loanMenu, "4");
+		parentPanel.add(orderPanel, "5");
 		menuPanel.setLayout(null);
 
 		JLabel lblVelkommenTilVestbjerg = new JLabel("Vestbjerg Byggecenter's IT System");
@@ -83,6 +85,11 @@ public class MainMenu extends JFrame {
 		menuPanel.add(btnNewButton);
 
 		JButton btnNewButton_1 = new JButton("Lån");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cl.show(parentPanel, "4");
+			}
+		});
 		btnNewButton_1.setBounds(397, 290, 105, 32);
 		menuPanel.add(btnNewButton_1);
 
