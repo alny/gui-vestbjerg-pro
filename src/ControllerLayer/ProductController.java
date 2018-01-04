@@ -102,7 +102,7 @@ public class ProductController {
 		int index = 0;
 		String k = "1";
 
-		while (index < 10) {
+		while (index < 30) {
 
 			createMassProduct(i, "name", "description", 100, 2000, 10, 50);
 			i++;
