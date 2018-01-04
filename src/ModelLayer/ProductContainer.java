@@ -1,6 +1,7 @@
 package ModelLayer; 
 
 import java.util.HashMap;
+import java.util.Map;
 public class ProductContainer
 {
     // instance variables
@@ -79,4 +80,13 @@ public class ProductContainer
         return findProduct(bar).getPrice();    
 
     }
-}
+    
+    public Map<Integer, Product> getmap() {
+    return productMap;
+    }
+    
+    public int getMax(int bar) {
+    return findProduct(bar).getMaxAmount();
+    }
+    }
+

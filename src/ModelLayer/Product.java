@@ -20,11 +20,10 @@ public abstract class Product{
     /**
      * Constructor for objects of class ProductMain
      */
-    public Product(int barcode, String name, String description, int price, int amount, int min,int max){
+    public Product(int barcode, String name, String description, double price, int amount, int min,int max){
         this.barcode = barcode;
         this.name = name;
         this.description = description;
-        this.price = price;
         this.price = price;
         minAmount = min;
         maxAmount = max;
@@ -59,7 +58,23 @@ public abstract class Product{
         price = newPrice;
     }
     
-    public double getPrice(){
+    public int getMinAmount() {
+		return minAmount;
+	}
+
+	public void setMinAmount(int minAmount) {
+		this.minAmount = minAmount;
+	}
+
+	public int getMaxAmount() {
+		return maxAmount;
+	}
+
+	public void setMaxAmount(int maxAmount) {
+		this.maxAmount = maxAmount;
+	}
+
+	public double getPrice(){
         return price;
     }
     

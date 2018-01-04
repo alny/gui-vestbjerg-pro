@@ -8,7 +8,7 @@ public class UniqueProduct extends Product {
      * constructor til objekter af class UniqueProduct
      */
 
-    public UniqueProduct(int barcode, String name, String description, int price, int amount, int min,int max) {
+    public UniqueProduct(int barcode, String name, String description, double price, int amount, int min,int max) {
         super(barcode,name,description,price, amount, min, max);
         itemMap = new HashMap<Integer,Item>();
     }
@@ -22,7 +22,7 @@ public class UniqueProduct extends Product {
     /**
      * Tager et item objekt og tilføjer det til vores UniqueProduct hashmap
      */
-    public String create(String name, String description, int price, boolean udlevering){
+    public String create(String name, String description, double price, boolean udlevering){
         Item item = new Item (name, description, price, udlevering);
         addItem(item);
         return item.toString();

@@ -4,6 +4,10 @@ import ModelLayer.ProductContainer;
 import ModelLayer.Product;
 import ModelLayer.MassProduct;
 import ModelLayer.UniqueProduct;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import ModelLayer.Item;
 
 /**
@@ -24,7 +28,7 @@ public class ProductController {
 		productContainer = ProductContainer.getInstance();
 	}
 
-	public String createMassProduct(int barcode, String name, String description, int price, int amount, int min,
+	public String createMassProduct(int barcode, String name, String description, double price, int amount, int min,
 			int max) {
 		MassProduct newMassProduct = new MassProduct(barcode, name, description, price, amount, min, max);
 		productContainer.addProduct(newMassProduct);
@@ -79,6 +83,16 @@ public class ProductController {
 	public double getPrice(int bar) {
 		return productContainer.getPrice(bar);
 	}
+	
+	public Map<Integer, Product> getMap() {
+	return productContainer.getmap();	
+	}
+	
+	public int getMax(int bar) {
+	return productContainer.getMax(bar);
+
+	}
+	
 
 	/**
 	 * opretter dummy produkter

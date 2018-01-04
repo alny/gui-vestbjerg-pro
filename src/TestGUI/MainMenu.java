@@ -18,6 +18,7 @@ public class MainMenu extends JFrame {
 	private JPanel productPanel;
 	private JPanel orderPanel;
 	private CustomerMenu customerMenu;
+	private ProductMenu productMenu;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -37,7 +38,7 @@ public class MainMenu extends JFrame {
 		parentPanel = new JPanel();
 		menuPanel = new JPanel();
 		customerMenu = new CustomerMenu(parentPanel, cl);
-		productPanel = new JPanel();
+		productMenu = new ProductMenu(parentPanel, cl);
 		orderPanel = new JPanel();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,7 +50,7 @@ public class MainMenu extends JFrame {
 
 		parentPanel.add(menuPanel, "1");
 		parentPanel.add(customerMenu, "2");
-		parentPanel.add(productPanel, "3");
+		parentPanel.add(productMenu, "3");
 		parentPanel.add(orderPanel, "4");
 
 		menuPanel.setLayout(null);
@@ -69,6 +70,11 @@ public class MainMenu extends JFrame {
 		menuPanel.add(btnKunder);
 
 		JButton btnProdukter = new JButton("Produkter");
+		btnProdukter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				cl.show(parentPanel, "3");
+			}
+		});
 		btnProdukter.setBounds(397, 210, 105, 32);
 		menuPanel.add(btnProdukter);
 
