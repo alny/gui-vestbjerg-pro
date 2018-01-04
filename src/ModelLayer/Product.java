@@ -27,6 +27,7 @@ public abstract class Product{
         this.price = price;
         minAmount = min;
         maxAmount = max;
+        this.amount = amount;
     }
 
     // Getters and setters methods

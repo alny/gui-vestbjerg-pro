@@ -40,6 +40,7 @@ public class ProductMenu extends JPanel {
 		parent = cardLayout;
 		pCtr = new ProductController();
 		setLayout(new BorderLayout(0, 0));
+		pCtr.createdummydata();
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		add(tabbedPane);
