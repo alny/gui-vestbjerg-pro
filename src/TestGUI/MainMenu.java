@@ -17,9 +17,9 @@ public class MainMenu extends JFrame {
 	private JPanel menuPanel;
 	private JPanel productPanel;
 	private JPanel orderPanel;
-	private JPanel loanMenu;
 	private CustomerMenu customerMenu;
 	private ProductMenu productMenu;
+	private LoanMenu loanMenu;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -40,7 +40,7 @@ public class MainMenu extends JFrame {
 		menuPanel = new JPanel();
 		customerMenu = new CustomerMenu(parentPanel, cl);
 		productMenu = new ProductMenu(parentPanel, cl);
-		loanMenu = new LoanMenu(parentPanel,cl);
+		loanMenu = new LoanMenu();
 		orderPanel = new JPanel();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
