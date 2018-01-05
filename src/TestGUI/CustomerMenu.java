@@ -46,6 +46,8 @@ public class CustomerMenu extends JPanel {
 	private void init() {
 		setBounds(100, 100, 750, 500);
 		setLayout(new BorderLayout(0, 0));
+		
+		accountCtr = new AccountController();
 
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		add(tabbedPane, BorderLayout.CENTER);
@@ -55,8 +57,6 @@ public class CustomerMenu extends JPanel {
 	}
 
 	public JPanel showCustomers() {
-
-		accountCtr = new AccountController();
 
 		accountCtr.createAccount("Erik", "Erikvej 32", "9000", "Aalborg", "123", "type");
 		accountCtr.createAccount("Findus", "Yolovej 32", "2100", "København", "321", "type");
