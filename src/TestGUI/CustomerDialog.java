@@ -1,31 +1,33 @@
-package UILayer;
+package TestGUI;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import ControllerLayer.OrderController;
 
-public class CustomerDialog extends JDialog {
+	public class CustomerDialog {
 	private JTextField textField;
 	private JTextField textField_1;
 	private boolean status = false;
 	private OrderController orderCtr;
+	private JFrame f;
+	private JTabbedPane tab;
 	
-	public CustomerDialog(OrderController oCtr) {
+	public CustomerDialog(JTabbedPane t, OrderController oCtr) {
+		tab = t;
 		orderCtr = oCtr;
-		JFrame f = new JFrame();
+		f = new JFrame("Kunde Info");
 		
 		f.setBounds(100, 100, 580, 400);
 		f.setVisible(true);
-		JDialog cDialog = new JDialog(f , "Dialog Example", true);
 		
 		JPanel panel_1 = new JPanel();
 		f.getContentPane().add(panel_1, BorderLayout.CENTER);
@@ -87,6 +89,9 @@ public class CustomerDialog extends JDialog {
 		String phone = textField.getText();
 		
 		orderCtr.createOrder(status, address, phone);
+		f.setVisible(false);
+		f.dispose();
+		tab.setSelectedIndex(1);
 		
 
 	}

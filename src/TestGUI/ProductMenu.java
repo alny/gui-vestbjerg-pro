@@ -43,10 +43,11 @@ public class ProductMenu extends JPanel {
 	private JTextField textField_11;
 	private JTextField textField_12;
 	private JTextField textField_13;
-	public ProductMenu(JPanel mainPanel, CardLayout cardLayout) {
+	
+	public ProductMenu(JPanel mainPanel, CardLayout cardLayout, ProductController p) {
 		parentPanel = mainPanel;
 		parent = cardLayout;
-		pCtr = new ProductController();
+		pCtr = p;
 		pCtr.createdummydata();
 		pCtr.createdummydata();
 		pCtr.createdummydata();

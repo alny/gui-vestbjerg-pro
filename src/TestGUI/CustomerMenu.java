@@ -37,23 +37,22 @@ public class CustomerMenu extends JPanel {
 	private JTable jt;
 	private JLabel label;
 
-	public CustomerMenu(JPanel mainPanel, CardLayout cardLayout) {
-		init();
+	public CustomerMenu(JPanel mainPanel, CardLayout cardLayout, AccountController aCtr) {
 		parentPanel = mainPanel;
 		parent = cardLayout;
+		accountCtr = aCtr;
+		init();
 	}
 
 	private void init() {
 		setBounds(100, 100, 750, 500);
 		setLayout(new BorderLayout(0, 0));
-		
-		accountCtr = new AccountController();
-
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		add(tabbedPane, BorderLayout.CENTER);
+		
 		tabbedPane.addTab("Kundeliste", null, showCustomers(), null);
 		tabbedPane.addTab("Opret Kunde", null, createCustomers(), null);
-
+		
 	}
 
 	public JPanel showCustomers() {

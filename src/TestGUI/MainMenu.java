@@ -11,16 +11,21 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import ControllerLayer.AccountController;
+import ControllerLayer.OrderController;
+import ControllerLayer.ProductController;
+
 public class MainMenu extends JFrame {
 
 	private JPanel parentPanel;
 	private JPanel menuPanel;
-	private JPanel productPanel;
-	private JPanel orderPanel;
 	private CustomerMenu customerMenu;
 	private ProductMenu productMenu;
 	private LoanMenu loanMenu;
 	private OrderMenu orderMenu;
+	private AccountController accountCtr;
+	private OrderController orderCtr;
+	private ProductController productCtr;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -36,13 +41,18 @@ public class MainMenu extends JFrame {
 	}
 
 	public MainMenu() {
+		accountCtr = new AccountController();
+		orderCtr = new OrderController();
+		productCtr = new ProductController();
+		
+		
 		CardLayout cl = new CardLayout();
 		parentPanel = new JPanel();
 		menuPanel = new JPanel();
-		customerMenu = new CustomerMenu(parentPanel, cl);
-		productMenu = new ProductMenu(parentPanel, cl);
+		customerMenu = new CustomerMenu(parentPanel, cl, accountCtr);
+		productMenu = new ProductMenu(parentPanel, cl, productCtr);
 		loanMenu = new LoanMenu();
-		orderMenu = new OrderMenu(parentPanel, cl);
+		orderMenu = new OrderMenu(parentPanel, cl, orderCtr, accountCtr, productCtr);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 750, 500);
