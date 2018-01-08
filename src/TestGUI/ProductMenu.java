@@ -7,6 +7,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 
 import javax.swing.JTable;
+import javax.management.modelmbean.ModelMBean;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
@@ -125,6 +126,21 @@ public class ProductMenu extends JPanel {
 		panel_2.add(btnOpretProdukt);
 		
 		JButton btnSletProdukt = new JButton("Slet Produkt");
+		btnSletProdukt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int row = table.getSelectedRow();
+				int barcode = Integer.parseInt(table.getValueAt(row, 0).toString());
+				pCtr.removeProduct(barcode);
+				table.removeRowSelectionInterval(row,row);
+		
+			
+			
+				
+				//accountCtr.removeAccount(getPhone);
+				//tableModel.fireTableRowsDeleted(row, row);
+			
+			}
+		});
 		btnSletProdukt.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_2.add(btnSletProdukt);
 		
@@ -223,6 +239,8 @@ public class ProductMenu extends JPanel {
 			pCtr.createMassProduct(barcode, name, description, price, amount, min, max);
 			DefaultTableModel model = (DefaultTableModel) table.getModel();
 			model.addRow(new Object[] {barcode, name, description, price, amount, min, max});
+			cleatTextFieldMassProduct();
+			JOptionPane.showMessageDialog(null, "Produkt Oprettet");
 			tabbedPane.setSelectedIndex(0);
 			
 			
@@ -237,6 +255,7 @@ public class ProductMenu extends JPanel {
 		btnAnuller.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tabbedPane.setSelectedIndex(0);
+				cleatTextFieldMassProduct();
 			}
 		});
 		btnAnuller.setBounds(138, 238, 89, 23);
@@ -316,6 +335,7 @@ public class ProductMenu extends JPanel {
 			pCtr.createUniqueProduct(barcode, name, description, price, amount, min, max);
 			DefaultTableModel model = (DefaultTableModel) table.getModel();
 			model.addRow(new Object[] {barcode, name, description, price, amount, min, max});
+			JOptionPane.showMessageDialog(null, "Produkt Oprettet");
 			tabbedPane.setSelectedIndex(0);
 			}
 		});
@@ -323,6 +343,12 @@ public class ProductMenu extends JPanel {
 		OpretUnikProdukt.add(button_1);
 		
 		JButton button_2 = new JButton("Anuller");
+		button_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			tabbedPane.setSelectedIndex(0);
+			clearTextFieldOpretUnikProdukt();
+			}
+		});
 		button_2.setBounds(157, 238, 89, 23);
 		OpretUnikProdukt.add(button_2);
 		
@@ -394,22 +420,30 @@ public class ProductMenu extends JPanel {
 			udlevering = true;	
 			}else {
 			udlevering = false;	
-			}
-			
-			pCtr.createItem(bar, name, description, price, udlevering);
-			table.repaint();
+			}			
+					
+			String result = pCtr.createItem(bar, name, description, price, udlevering);
+			JOptionPane.showMessageDialog(null, result);
+			comboBox.setSelectedItem(null);
+			clearTextFieldOpretEksemplar();
 			tabbedPane.setSelectedIndex(1);
-			
+			}
 			
 			
 			
 			}
-			}
+		
 		});
 		button_3.setBounds(22, 230, 137, 23);
 		UniktEksemplar.add(button_3);
 		
 		JButton button_4 = new JButton("Anuller");
+		button_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			tabbedPane.setSelectedIndex(0);
+			clearTextFieldOpretEksemplar();
+			}
+		});
 		button_4.setBounds(169, 230, 89, 23);
 		UniktEksemplar.add(button_4);
 		
@@ -448,4 +482,23 @@ public class ProductMenu extends JPanel {
 		textField_13.setText("");
 		
 	}
+	public void clearTextFieldOpretEksemplar() {
+		barcodeField.setText("");
+		nameField.setText("");
+		descriptioneField.setText("");
+		priceField.setText("");	
+		
+	}
+	public void cleatTextFieldMassProduct() {
+	textField.setText("");
+	textField_1.setText("");
+	textField_2.setText("");
+	textField_3.setText("");
+	textField_4.setText("");
+	textField_5.setText("");
+	textField_6.setText("");
+	
+	}
+	
+	
 }

@@ -88,5 +88,9 @@ public class ProductContainer
     public int getMax(int bar) {
     return findProduct(bar).getMaxAmount();
     }
+    
+    public void removeProduct(int bar) {
+    productMap.remove(bar);	    
+    }
     }
 

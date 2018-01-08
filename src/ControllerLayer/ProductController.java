@@ -90,8 +90,12 @@ public class ProductController {
 	
 	public int getMax(int bar) {
 	return productContainer.getMax(bar);
-
 	}
+	public void removeProduct(int bar) {
+	productContainer.removeProduct(bar);
+	}
+
+	
 	
 
 	/**
