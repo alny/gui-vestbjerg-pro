@@ -51,7 +51,6 @@ public class OrderMenu extends JPanel {
 	private JLabel label_6;
 	private int barcode;
 	private double total;
-	private boolean showSale;
 
 	public OrderMenu(JPanel mainPanel, CardLayout cardLayout, OrderController oCtr, AccountController aCtr, ProductController pCtr) {
 		parentPanel = mainPanel;
@@ -81,7 +80,6 @@ public class OrderMenu extends JPanel {
 		btnSalgMKunde.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				customerDialog();
-				showSale = false;
 			}
 		});
 		btnSalgMKunde.setBounds(274, 125, 196, 79);
@@ -92,7 +90,6 @@ public class OrderMenu extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				tabbedPane.setSelectedIndex(1);
 				id = orderCtr.createOrder();
-				showSale = true;
 			}
 		});
 		btnSalgUKunde.setBounds(274, 270, 196, 72);
@@ -155,48 +152,46 @@ public class OrderMenu extends JPanel {
 
 		JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panel, panel_2);
 		panel_2.setLayout(null);
-		
-			if(showSale) {
-				JLabel lblTelefon = new JLabel("Telefon");
-				lblTelefon.setBounds(12, 275, 56, 16);
-				panel_2.add(lblTelefon);
+				
+					JLabel lblTelefon = new JLabel("Telefon");
+					lblTelefon.setBounds(12, 275, 56, 16);
+					panel_2.add(lblTelefon);
 
-				JLabel lblAdresse = new JLabel("Adresse");
-				lblAdresse.setBounds(12, 161, 56, 16);
-				panel_2.add(lblAdresse);
+					JLabel lblAdresse = new JLabel("Adresse");
+					lblAdresse.setBounds(12, 161, 56, 16);
+					panel_2.add(lblAdresse);
 
-				JLabel lblNewLabel = new JLabel("Navn");
-				lblNewLabel.setBounds(12, 123, 56, 16);
-				panel_2.add(lblNewLabel);
+					JLabel lblNewLabel = new JLabel("Navn");
+					lblNewLabel.setBounds(12, 123, 56, 16);
+					panel_2.add(lblNewLabel);
 
-				JLabel lblNewLabel_2 = new JLabel("By");
-				lblNewLabel_2.setBounds(12, 200, 56, 16);
-				panel_2.add(lblNewLabel_2);
+					JLabel lblNewLabel_2 = new JLabel("By");
+					lblNewLabel_2.setBounds(12, 200, 56, 16);
+					panel_2.add(lblNewLabel_2);
 
-				JLabel lblNewLabel_3 = new JLabel("Post Nr");
-				lblNewLabel_3.setBounds(12, 236, 56, 16);
-				panel_2.add(lblNewLabel_3);
+					JLabel lblNewLabel_3 = new JLabel("Post Nr");
+					lblNewLabel_3.setBounds(12, 236, 56, 16);
+					panel_2.add(lblNewLabel_3);
 
-				label = new JLabel("");
-				label.setBounds(79, 123, 140, 16);
-				panel_2.add(label);
+					label = new JLabel("");
+					label.setBounds(79, 123, 140, 16);
+					panel_2.add(label);
 
-				label_2 = new JLabel("");
-				label_2.setBounds(78, 162, 141, 14);
-				panel_2.add(label_2);
+					label_2 = new JLabel("");
+					label_2.setBounds(78, 162, 141, 14);
+					panel_2.add(label_2);
 
-				label_3 = new JLabel("");
-				label_3.setBounds(78, 201, 141, 14);
-				panel_2.add(label_3);
+					label_3 = new JLabel("");
+					label_3.setBounds(78, 201, 141, 14);
+					panel_2.add(label_3);
 
-				label_4 = new JLabel("");
-				label_4.setBounds(78, 236, 131, 14);
-				panel_2.add(label_4);
+					label_4 = new JLabel("");
+					label_4.setBounds(78, 236, 131, 14);
+					panel_2.add(label_4);
 
-				label_5 = new JLabel("");
-				label_5.setBounds(78, 276, 141, 14);
-				panel_2.add(label_5);
-			}
+					label_5 = new JLabel("");
+					label_5.setBounds(78, 276, 141, 14);
+					panel_2.add(label_5);
 		
 		JButton btnNewButton = new JButton("Tilf\u00F8j Produkt");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -273,7 +268,7 @@ public class OrderMenu extends JPanel {
 		btnOpretOrdre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				createOrder();
-				setCusomterInfo();
+				setCustomerInfo();
 			}
 		});
 		btnOpretOrdre.setBounds(12, 315, 157, 25);
@@ -288,7 +283,7 @@ public class OrderMenu extends JPanel {
 		tabbedPane.setSelectedIndex(1);
 	}
 
-	public void setCusomterInfo() {
+	public void setCustomerInfo() {
 		Account accountObj = accountCtr.findCustomer(phone);
 		label.setText(accountObj.getName());
 		label_2.setText(accountObj.getAddress());
@@ -397,6 +392,7 @@ public class OrderMenu extends JPanel {
 		label_4.setText("");
 		label_5.setText("");
 		label_6.setText("");
+		textField_4.setText("");
 		total = 0;
 		DefaultTableModel model = (DefaultTableModel) jt.getModel();
 		model.getDataVector().removeAllElements();

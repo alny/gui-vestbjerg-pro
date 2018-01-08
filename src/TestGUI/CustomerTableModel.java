@@ -13,8 +13,8 @@ public class CustomerTableModel extends AbstractTableModel {
 
 	public void setData(Map<String, Account> db) {
 		this.db = db;
-
 	}
+	
 
 	public String getColumnName(int columnIndex) {
 		return (columnIndex < columnNames.length) ? columnNames[columnIndex] : null;
