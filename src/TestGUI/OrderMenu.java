@@ -3,6 +3,7 @@ package TestGUI;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.FlowLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -47,7 +48,9 @@ public class OrderMenu extends JPanel {
 	private JLabel label_3;
 	private JLabel label_4;
 	private JLabel label_5;
+	private JLabel label_6;
 	private int barcode;
+	private double total;
 
 	public OrderMenu(JPanel mainPanel, CardLayout cardLayout, OrderController oCtr, AccountController aCtr, ProductController pCtr) {
 		parentPanel = mainPanel;
@@ -123,6 +126,12 @@ public class OrderMenu extends JPanel {
 			}
 		});
 		panel_1.add(btnAnnuller);
+		
+		JLabel lblNewLabel_4 = new JLabel("Total Pris:");
+		panel_1.add(lblNewLabel_4);
+		
+		label_6 = new JLabel("");
+		panel_1.add(label_6);
 
 		JPanel panel = new JPanel();
 		JPanel panel_2 = new JPanel();
@@ -316,6 +325,8 @@ public class OrderMenu extends JPanel {
 				String name = productObj.getName();
 				String description = productObj.getDescription();
 				double price = productObj.getPrice();
+				totalPrice(price, amount);
+				
 
 				DefaultTableModel model = (DefaultTableModel) jt.getModel();
 				model.addRow(new Object[] { tBarcode, name, description, price, amount });
@@ -374,17 +385,24 @@ public class OrderMenu extends JPanel {
 		label_3.setText("");
 		label_4.setText("");
 		label_5.setText("");
+		label_6.setText("");
+		total = 0;
 		DefaultTableModel model = (DefaultTableModel) jt.getModel();
 		model.getDataVector().removeAllElements();
 		model.fireTableDataChanged();
 		tabbedPane.setSelectedIndex(0);
 	}
+	
+	public void totalPrice(double p, int amount) {
+		int price = (int) p; 
+		int muliply = price * amount;
+		total += muliply;
+		label_6.setText(String.valueOf(total));		
+	}
 
 	public TableModel itemTable() {
-
 		DefaultTableModel model = new DefaultTableModel(
 				new Object[] { "Stregkode", "Navn", "Beskrivelse", "Pris", "Antal" }, 0);
-
 		return model;
 
 	}
