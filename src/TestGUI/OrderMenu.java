@@ -51,6 +51,7 @@ public class OrderMenu extends JPanel {
 	private JLabel label_6;
 	private int barcode;
 	private double total;
+	private boolean showSale;
 
 	public OrderMenu(JPanel mainPanel, CardLayout cardLayout, OrderController oCtr, AccountController aCtr, ProductController pCtr) {
 		parentPanel = mainPanel;
@@ -68,8 +69,7 @@ public class OrderMenu extends JPanel {
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		add(tabbedPane, BorderLayout.CENTER);
 		tabbedPane.addTab("Ordre Menu", null, orderMainMenu(), null);
-		tabbedPane.addTab("Salg m. Kunde", null, saleWithCustomer(), null);
-		tabbedPane.addTab("Salg u. Kunde", null, null, null);
+		tabbedPane.addTab("Opret Salg", null, createSale(), null);
 	}
 
 	private JPanel orderMainMenu() {
@@ -81,12 +81,20 @@ public class OrderMenu extends JPanel {
 		btnSalgMKunde.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				customerDialog();
+				showSale = false;
 			}
 		});
 		btnSalgMKunde.setBounds(274, 125, 196, 79);
 		mainPanel.add(btnSalgMKunde);
 
 		JButton btnSalgUKunde = new JButton("Salg u. Kunde");
+		btnSalgUKunde.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tabbedPane.setSelectedIndex(1);
+				id = orderCtr.createOrder();
+				showSale = true;
+			}
+		});
 		btnSalgUKunde.setBounds(274, 270, 196, 72);
 		mainPanel.add(btnSalgUKunde);
 
@@ -101,8 +109,8 @@ public class OrderMenu extends JPanel {
 
 		return mainPanel;
 	}
-
-	private JPanel saleWithCustomer() {
+	
+	private JPanel createSale() {
 		JPanel salePanel = new JPanel();
 		salePanel.setLayout(new BorderLayout(0, 0));
 
@@ -122,7 +130,7 @@ public class OrderMenu extends JPanel {
 		JButton btnAnnuller = new JButton("Annuller");
 		btnAnnuller.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				parent.show(parentPanel, "1");
+				tabbedPane.setSelectedIndex(0);
 			}
 		});
 		panel_1.add(btnAnnuller);
@@ -147,64 +155,67 @@ public class OrderMenu extends JPanel {
 
 		JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panel, panel_2);
 		panel_2.setLayout(null);
+		
+			if(showSale) {
+				JLabel lblTelefon = new JLabel("Telefon");
+				lblTelefon.setBounds(12, 275, 56, 16);
+				panel_2.add(lblTelefon);
 
-		JLabel lblTelefon = new JLabel("Telefon");
-		lblTelefon.setBounds(12, 165, 56, 16);
-		panel_2.add(lblTelefon);
+				JLabel lblAdresse = new JLabel("Adresse");
+				lblAdresse.setBounds(12, 161, 56, 16);
+				panel_2.add(lblAdresse);
 
-		JLabel lblAdresse = new JLabel("Adresse");
-		lblAdresse.setBounds(12, 51, 56, 16);
-		panel_2.add(lblAdresse);
+				JLabel lblNewLabel = new JLabel("Navn");
+				lblNewLabel.setBounds(12, 123, 56, 16);
+				panel_2.add(lblNewLabel);
 
+				JLabel lblNewLabel_2 = new JLabel("By");
+				lblNewLabel_2.setBounds(12, 200, 56, 16);
+				panel_2.add(lblNewLabel_2);
+
+				JLabel lblNewLabel_3 = new JLabel("Post Nr");
+				lblNewLabel_3.setBounds(12, 236, 56, 16);
+				panel_2.add(lblNewLabel_3);
+
+				label = new JLabel("");
+				label.setBounds(79, 123, 140, 16);
+				panel_2.add(label);
+
+				label_2 = new JLabel("");
+				label_2.setBounds(78, 162, 141, 14);
+				panel_2.add(label_2);
+
+				label_3 = new JLabel("");
+				label_3.setBounds(78, 201, 141, 14);
+				panel_2.add(label_3);
+
+				label_4 = new JLabel("");
+				label_4.setBounds(78, 236, 131, 14);
+				panel_2.add(label_4);
+
+				label_5 = new JLabel("");
+				label_5.setBounds(78, 276, 141, 14);
+				panel_2.add(label_5);
+			}
+		
 		JButton btnNewButton = new JButton("Tilf\u00F8j Produkt");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				createItem();
 			}
 		});
-		btnNewButton.setBounds(66, 336, 153, 25);
+		btnNewButton.setBounds(66, 62, 153, 25);
 		panel_2.add(btnNewButton);
 
 		JLabel lblNewLabel_1 = new JLabel("Barkode");
-		lblNewLabel_1.setBounds(12, 304, 56, 16);
+		lblNewLabel_1.setBounds(12, 30, 56, 16);
 		panel_2.add(lblNewLabel_1);
 
 		textField_4 = new JTextField();
-		textField_4.setBounds(66, 301, 153, 22);
+		textField_4.setBounds(66, 27, 153, 22);
 		panel_2.add(textField_4);
 		textField_4.setColumns(10);
-
-		JLabel lblNewLabel = new JLabel("Navn");
-		lblNewLabel.setBounds(12, 13, 56, 16);
-		panel_2.add(lblNewLabel);
-
-		JLabel lblNewLabel_2 = new JLabel("By");
-		lblNewLabel_2.setBounds(12, 90, 56, 16);
-		panel_2.add(lblNewLabel_2);
-
-		JLabel lblNewLabel_3 = new JLabel("Post Nr");
-		lblNewLabel_3.setBounds(12, 126, 56, 16);
-		panel_2.add(lblNewLabel_3);
-
-		label = new JLabel("");
-		label.setBounds(79, 13, 140, 16);
-		panel_2.add(label);
-
-		label_2 = new JLabel("");
-		label_2.setBounds(78, 52, 141, 14);
-		panel_2.add(label_2);
-
-		label_3 = new JLabel("");
-		label_3.setBounds(78, 91, 141, 14);
-		panel_2.add(label_3);
-
-		label_4 = new JLabel("");
-		label_4.setBounds(78, 126, 131, 14);
-		panel_2.add(label_4);
-
-		label_5 = new JLabel("");
-		label_5.setBounds(78, 166, 141, 14);
-		panel_2.add(label_5);
+		
 
 		salePanel.add(split);
 
@@ -294,7 +305,7 @@ public class OrderMenu extends JPanel {
 			simpleProductDialog();
 		}
 	}
-
+	
 	public void simpleProductDialog() {
 		JDialog dialog = new JDialog();
 
@@ -312,7 +323,7 @@ public class OrderMenu extends JPanel {
 		textField_5 = new JTextField();
 		textField_5.setBounds(13, 105, 210, 22);
 		panel_1.add(textField_5);
-		textField_1.setColumns(10);
+		textField_5.setColumns(10);
 
 		JButton btnOpretOrdre = new JButton("Opret Produkt");
 		btnOpretOrdre.addActionListener(new ActionListener() {
@@ -395,8 +406,8 @@ public class OrderMenu extends JPanel {
 	
 	public void totalPrice(double p, int amount) {
 		int price = (int) p; 
-		int muliply = price * amount;
-		total += muliply;
+		int multiply = price * amount;
+		total += multiply;
 		label_6.setText(String.valueOf(total));		
 	}
 

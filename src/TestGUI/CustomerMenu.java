@@ -2,10 +2,11 @@ package TestGUI;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -13,14 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
+import javax.swing.JTextField;
 
 import ControllerLayer.AccountController;
-import ModelLayer.Account;
-import java.awt.Font;
-import javax.swing.JTextField;
-import java.awt.Color;
 
 public class CustomerMenu extends JPanel {
 
@@ -34,6 +30,7 @@ public class CustomerMenu extends JPanel {
 	private JTextField textField_3;
 	private JTextField textField_4;
 	private JTextField textField_5;
+	private CustomerTableModel tableModel;
 	private JTable jt;
 	private JLabel label;
 
@@ -63,9 +60,11 @@ public class CustomerMenu extends JPanel {
 		JPanel showCustomers = new JPanel();
 		showCustomers.setLayout(new BorderLayout(0, 0));
 		// showCustomers.setLayout(null);
+		
+		tableModel = new CustomerTableModel();
+		tableModel.setData(accountCtr.getCustomers());
 
-		jt = new JTable();
-		jt.setModel(customerTable(accountCtr.getCustomers()));
+		jt = new JTable(tableModel);
 		JScrollPane sp = new JScrollPane();
 		sp.setBounds(88, 251, 452, 155);
 		sp.setViewportView(jt);
@@ -86,19 +85,10 @@ public class CustomerMenu extends JPanel {
 		JButton btnOpret = new JButton("Slet Kunde");
 		btnOpret.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (jt.getSelectedRow() == -1) {
-					label.setText("Vælg den kunde du vil slette");
-				} else {
-					DefaultTableModel model = (DefaultTableModel) jt.getModel();
-
-					Object element = model.getDataVector().elementAt(jt.getSelectedRow());
-
-					String toString = element.toString();
-					String last = toString.substring(toString.lastIndexOf(',') + 1);
-					String phone = last.replaceAll("[\\[\\](){}]", "");
-					accountCtr.removeAccount(phone);
-					model.removeRow(jt.getSelectedRow());
-				}
+				int row = jt.getSelectedRow();
+				String getPhone = tableModel.removeRow(row);
+				accountCtr.removeAccount(getPhone);
+				tableModel.fireTableRowsDeleted(row, row);
 			}
 		});
 		panel.add(btnOpret);
@@ -192,11 +182,9 @@ public class CustomerMenu extends JPanel {
 				String phone = textField_4.getText();
 				String type = textField_5.getText();
 
-				DefaultTableModel model = (DefaultTableModel) jt.getModel();
-				model.addRow(new Object[] { name, address, zip, city, phone, type });
-
 				accountCtr.createAccount(name, address, zip, city, phone, type);
 				tabbedPane.setSelectedIndex(0);
+				refresh();
 			}
 		});
 		btnOpreKunde.setBounds(128, 371, 112, 23);
@@ -214,17 +202,8 @@ public class CustomerMenu extends JPanel {
 		return createCustomers;
 
 	}
-
-	public TableModel customerTable(Map<String, Account> map) {
-
-		DefaultTableModel model = new DefaultTableModel(new Object[] { "Navn", "Adresse", "Post Nr", "By", "Telefon" },
-				0);
-		for (Map.Entry<String, Account> entry : map.entrySet()) {
-
-			model.addRow(new Object[] { entry.getValue().getName(), entry.getValue().getAddress(),
-					entry.getValue().getZip(), entry.getValue().getCity(), entry.getValue().getPhone() });
-		}
-		return model;
-
+	
+	public void refresh() {
+		tableModel.fireTableDataChanged();
 	}
 }
