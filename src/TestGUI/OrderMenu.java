@@ -33,14 +33,12 @@ public class OrderMenu extends JPanel {
 	private ProductController productCtr;
 	private JTabbedPane tabbedPane;
 	private JTable jt;
-	private JSplitPane split;
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_4;
 	private JTextField textField_5;
 	private JTextField textField_6;
 	private boolean status = false;
-	private JTabbedPane tab;
 	private JDialog dialog;
 	private int id;
 	private String phone;
@@ -111,6 +109,11 @@ public class OrderMenu extends JPanel {
 		salePanel.add(panel_1, BorderLayout.SOUTH);
 
 		JButton btnAfslutSalg = new JButton("Afslut Salg");
+		btnAfslutSalg.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearOrdreData();
+			}
+		});
 		panel_1.add(btnAfslutSalg);
 
 		JButton btnAnnuller = new JButton("Annuller");
@@ -363,6 +366,18 @@ public class OrderMenu extends JPanel {
 		});
 		btnOpretOrdre.setBounds(12, 215, 157, 25);
 		panel_1.add(btnOpretOrdre);
+	}
+	
+	public void clearOrdreData() {
+		label.setText("");
+		label_2.setText("");
+		label_3.setText("");
+		label_4.setText("");
+		label_5.setText("");
+		DefaultTableModel model = (DefaultTableModel) jt.getModel();
+		model.getDataVector().removeAllElements();
+		model.fireTableDataChanged();
+		tabbedPane.setSelectedIndex(0);
 	}
 
 	public TableModel itemTable() {
