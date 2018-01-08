@@ -8,10 +8,13 @@ import java.awt.CardLayout;
 
 import javax.swing.JTable;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+
 import java.awt.event.ActionListener;
 import java.util.Map;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
@@ -35,14 +38,17 @@ public class ProductMenu extends JPanel {
 	private JPanel parentPanel;
 	private CardLayout parent;
 	private ProductController pCtr;
-	private JTable table_1;
 	private JTextField textField_7;
 	private JTextField textField_8;
 	private JTextField textField_9;
 	private JTextField textField_10;
-	private JTextField textField_11;
 	private JTextField textField_12;
 	private JTextField textField_13;
+	private JTextField barcodeField;
+	private JTextField nameField;
+	private JTextField descriptioneField;
+	private JTextField priceField;
+	private JTextField udleveringField;
 	
 	public ProductMenu(JPanel mainPanel, CardLayout cardLayout, ProductController p) {
 		parentPanel = mainPanel;
@@ -101,6 +107,7 @@ public class ProductMenu extends JPanel {
 		//sp.setBounds(88, 251, 452, 155);
 		sp.setViewportView(table);
 		MasseProdukt.add(sp, BorderLayout.WEST);
+	
 		
 		
 		JPanel panel_2 = new JPanel();
@@ -235,115 +242,180 @@ public class ProductMenu extends JPanel {
 		btnAnuller.setBounds(138, 238, 89, 23);
 		OpretMasseProdukt.add(btnAnuller);
 		
-		JPanel UnikkeProdukter = new JPanel();
-		tabbedPane.addTab("Unikke Produkter", null, UnikkeProdukter, null);
-		UnikkeProdukter.setLayout(new BorderLayout(0, 0));
-		
-		table_1 = new JTable();
-		UnikkeProdukter.add(table_1, BorderLayout.CENTER);
-		
-		JPanel panel_1 = new JPanel();
-		FlowLayout flowLayout_1 = (FlowLayout) panel_1.getLayout();
-		flowLayout_1.setAlignment(FlowLayout.LEFT);
-		UnikkeProdukter.add(panel_1, BorderLayout.SOUTH);
-		
-		JButton btnOpretUniktProdukt = new JButton("Opret Unikt Produkt");
-		btnOpretUniktProdukt.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			tabbedPane.setSelectedIndex(4);
-			}
-		});
-		panel_1.add(btnOpretUniktProdukt);
-		
-		JButton btnNewButton_3 = new JButton("Slet Produkt");
-		btnNewButton_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		panel_1.add(btnNewButton_3);
-		
-		JButton btnNewButton_1 = new JButton("Tilbage");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				tabbedPane.setSelectedIndex(0);
-			}
-		});
-		panel_1.add(btnNewButton_1);
-		
-		JPanel panel = new JPanel();
-		tabbedPane.addTab("Opret Unikt Produkt", null, panel, null);
-		panel.setLayout(null);
+		JPanel OpretUnikProdukt = new JPanel();
+		tabbedPane.addTab("Opret Unikt Produkt", null, OpretUnikProdukt, null);
+		OpretUnikProdukt.setLayout(null);
 		
 		JLabel label = new JLabel("Barcode");
 		label.setBounds(10, 39, 89, 14);
-		panel.add(label);
+		OpretUnikProdukt.add(label);
 		
 		textField_7 = new JTextField();
 		textField_7.setColumns(10);
 		textField_7.setBounds(112, 36, 294, 20);
-		panel.add(textField_7);
+		OpretUnikProdukt.add(textField_7);
 		
 		textField_8 = new JTextField();
 		textField_8.setColumns(10);
 		textField_8.setBounds(112, 63, 294, 20);
-		panel.add(textField_8);
+		OpretUnikProdukt.add(textField_8);
 		
 		JLabel label_1 = new JLabel("Navn");
 		label_1.setBounds(10, 66, 46, 14);
-		panel.add(label_1);
+		OpretUnikProdukt.add(label_1);
 		
 		JLabel label_2 = new JLabel("Beskrivelse");
 		label_2.setBounds(10, 91, 89, 14);
-		panel.add(label_2);
+		OpretUnikProdukt.add(label_2);
 		
 		textField_9 = new JTextField();
 		textField_9.setColumns(10);
 		textField_9.setBounds(112, 88, 294, 20);
-		panel.add(textField_9);
+		OpretUnikProdukt.add(textField_9);
 		
 		textField_10 = new JTextField();
 		textField_10.setColumns(10);
 		textField_10.setBounds(112, 113, 294, 20);
-		panel.add(textField_10);
+		OpretUnikProdukt.add(textField_10);
 		
 		JLabel label_3 = new JLabel("Pris");
 		label_3.setBounds(10, 116, 46, 14);
-		panel.add(label_3);
-		
-		JLabel label_4 = new JLabel("Antal");
-		label_4.setBounds(10, 141, 46, 14);
-		panel.add(label_4);
-		
-		textField_11 = new JTextField();
-		textField_11.setColumns(10);
-		textField_11.setBounds(112, 138, 294, 20);
-		panel.add(textField_11);
+		OpretUnikProdukt.add(label_3);
 		
 		textField_12 = new JTextField();
 		textField_12.setColumns(10);
-		textField_12.setBounds(112, 163, 294, 20);
-		panel.add(textField_12);
+		textField_12.setBounds(112, 138, 294, 20);
+		OpretUnikProdukt.add(textField_12);
 		
 		JLabel label_5 = new JLabel("Min Amount");
-		label_5.setBounds(10, 166, 89, 14);
-		panel.add(label_5);
+		label_5.setBounds(10, 141, 89, 14);
+		OpretUnikProdukt.add(label_5);
 		
 		JLabel label_6 = new JLabel("Max Amount");
-		label_6.setBounds(10, 191, 99, 21);
-		panel.add(label_6);
+		label_6.setBounds(10, 163, 99, 21);
+		OpretUnikProdukt.add(label_6);
 		
 		textField_13 = new JTextField();
 		textField_13.setColumns(10);
-		textField_13.setBounds(112, 191, 294, 20);
-		panel.add(textField_13);
+		textField_13.setBounds(112, 163, 294, 20);
+		OpretUnikProdukt.add(textField_13);
 		
 		JButton button_1 = new JButton("Opret Produkt");
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			int barcode = Integer.parseInt(textField_7.getText());
+			String name = textField_8.getText();
+			String description = textField_9.getText();
+			int price = Integer.parseInt(textField_10.getText());
+			int amount = 0;
+			int min = Integer.parseInt(textField_12.getText());
+			int max = Integer.parseInt(textField_13.getText());
+			
+			clearTextFieldOpretUnikProdukt();
+			
+			pCtr.createUniqueProduct(barcode, name, description, price, amount, min, max);
+			DefaultTableModel model = (DefaultTableModel) table.getModel();
+			model.addRow(new Object[] {barcode, name, description, price, amount, min, max});
+			tabbedPane.setSelectedIndex(0);
+			}
+		});
 		button_1.setBounds(10, 238, 137, 23);
-		panel.add(button_1);
+		OpretUnikProdukt.add(button_1);
 		
 		JButton button_2 = new JButton("Anuller");
 		button_2.setBounds(157, 238, 89, 23);
-		panel.add(button_2);
+		OpretUnikProdukt.add(button_2);
+		
+		JPanel UniktEksemplar = new JPanel();
+		tabbedPane.addTab("Unikt Eksemplar", null, UniktEksemplar, null);
+		UniktEksemplar.setLayout(null);
+		
+		barcodeField = new JTextField();
+		barcodeField.setColumns(10);
+		barcodeField.setBounds(124, 28, 294, 20);
+		UniktEksemplar.add(barcodeField);
+		
+		JLabel label_4 = new JLabel("Barcode");
+		label_4.setBounds(22, 31, 89, 14);
+		UniktEksemplar.add(label_4);
+		
+		nameField = new JTextField();
+		nameField.setColumns(10);
+		nameField.setBounds(124, 55, 294, 20);
+		UniktEksemplar.add(nameField);
+		
+		JLabel label_7 = new JLabel("Navn");
+		label_7.setBounds(22, 58, 46, 14);
+		UniktEksemplar.add(label_7);
+		
+		JLabel label_8 = new JLabel("Beskrivelse");
+		label_8.setBounds(22, 83, 89, 14);
+		UniktEksemplar.add(label_8);
+		
+		descriptioneField = new JTextField();
+		descriptioneField.setColumns(10);
+		descriptioneField.setBounds(124, 80, 294, 20);
+		UniktEksemplar.add(descriptioneField);
+		
+		priceField = new JTextField();
+		priceField.setColumns(10);
+		priceField.setBounds(124, 105, 294, 20);
+		UniktEksemplar.add(priceField);
+		
+		JLabel label_9 = new JLabel("Pris");
+		label_9.setBounds(22, 108, 46, 14);
+		UniktEksemplar.add(label_9);
+		
+		JLabel label_10 = new JLabel("Udlevering");
+		label_10.setBounds(22, 133, 89, 14);
+		UniktEksemplar.add(label_10);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.addItem("Ja");
+		comboBox.addItem("Nej");
+		comboBox.setSelectedItem(null);
+		comboBox.setBounds(124, 130, 294, 20);
+		UniktEksemplar.add(comboBox);
+		
+		
+		
+		JButton button_3 = new JButton("Opret Produkt");
+		button_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			if(comboBox.getSelectedItem()==null) {
+			JOptionPane.showMessageDialog(null, "Vælg venligst udlevering");	
+			}else {
+			int bar = Integer.parseInt(barcodeField.getText());
+			String name = nameField.getText();
+			String description = descriptioneField.getText();
+			int price = Integer.parseInt(priceField.getText());
+			boolean udlevering;
+			if(comboBox.getSelectedItem()=="ja") {
+			udlevering = true;	
+			}else {
+			udlevering = false;	
+			}
+			
+			pCtr.createItem(bar, name, description, price, udlevering);
+			table.repaint();
+			tabbedPane.setSelectedIndex(1);
+			
+			
+			
+			
+			}
+			}
+		});
+		button_3.setBounds(22, 230, 137, 23);
+		UniktEksemplar.add(button_3);
+		
+		JButton button_4 = new JButton("Anuller");
+		button_4.setBounds(169, 230, 89, 23);
+		UniktEksemplar.add(button_4);
+		
+		
+		
+	
 	}
 	public TableModel productTable(Map<Integer, Product> map) {
 
@@ -355,5 +427,25 @@ public class ProductMenu extends JPanel {
 		}
 		return model;
 
+	}
+	
+	public TableModel uniktProductTable(Map<Integer, Product> map) {
+
+		DefaultTableModel model = new DefaultTableModel(new Object[] { "barcode", "name", "beskrivelse", "pris", "antal"},
+				0);
+		for (Map.Entry<Integer, Product> entry : map.entrySet()) {
+
+			model.addRow(new Object[] { entry.getValue().getBarcode(), entry.getValue().getName(), entry.getValue().getDescription(),entry.getValue().getPrice(), entry.getValue().getAmount()});
+		}
+		return model;
+		}
+	public void clearTextFieldOpretUnikProdukt() {
+		textField_7.setText("");
+		textField_8.setText("");
+		textField_9.setText("");
+		textField_10.setText("");
+		textField_12.setText("");
+		textField_13.setText("");
+		
 	}
 }
