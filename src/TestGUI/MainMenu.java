@@ -44,8 +44,7 @@ public class MainMenu extends JFrame {
 		accountCtr = new AccountController();
 		orderCtr = new OrderController();
 		productCtr = new ProductController();
-		
-		
+
 		CardLayout cl = new CardLayout();
 		parentPanel = new JPanel();
 		menuPanel = new JPanel();
