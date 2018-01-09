@@ -436,9 +436,6 @@ public class ProductMenu extends JPanel {
 
 	public void clearTextFieldOpretEksemplar() {
 		barcodeField.setText("");
-		nameField.setText("");
-		descriptioneField.setText("");
-		priceField.setText("");
 	}
 
 	public void cleatTextFieldMassProduct() {
