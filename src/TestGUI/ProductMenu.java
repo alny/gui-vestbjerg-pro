@@ -55,9 +55,9 @@ public class ProductMenu extends JPanel {
 		parentPanel = mainPanel;
 		parent = cardLayout;
 		pCtr = p;
-//		pCtr.createdummydata();
-//		pCtr.createdummydata();
-//		pCtr.createdummydata();
+		// pCtr.createdummydata();
+		// pCtr.createdummydata();
+		// pCtr.createdummydata();
 		setLayout(null);
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -105,7 +105,7 @@ public class ProductMenu extends JPanel {
 
 		JScrollPane sp = new JScrollPane();
 		sp.setViewportView(table);
-		MasseProdukt.add(sp, BorderLayout.WEST);
+		MasseProdukt.add(sp);
 
 		JPanel panel_2 = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) panel_2.getLayout();
@@ -420,11 +420,10 @@ public class ProductMenu extends JPanel {
 		button_4.setBounds(169, 120, 89, 23);
 		UniktEksemplar.add(button_4);
 	}
-	
+
 	public void refresh() {
 		tableModel.fireTableDataChanged();
 	}
-	
 
 	public void clearTextFieldOpretUnikProdukt() {
 		textField_7.setText("");

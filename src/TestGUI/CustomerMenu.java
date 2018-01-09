@@ -120,7 +120,7 @@ public class CustomerMenu extends JPanel {
 		createCustomers.add(lblNavn);
 
 		textField = new JTextField();
-		textField.setBounds(141, 84, 475, 20);
+		textField.setBounds(141, 84, 475, 30);
 		createCustomers.add(textField);
 		textField.setColumns(10);
 
@@ -129,7 +129,7 @@ public class CustomerMenu extends JPanel {
 		createCustomers.add(lblAdresse);
 
 		textField_1 = new JTextField();
-		textField_1.setBounds(141, 128, 475, 20);
+		textField_1.setBounds(141, 128, 475, 30);
 		createCustomers.add(textField_1);
 		textField_1.setColumns(10);
 
@@ -138,7 +138,7 @@ public class CustomerMenu extends JPanel {
 		createCustomers.add(lblBy);
 
 		textField_2 = new JTextField();
-		textField_2.setBounds(141, 173, 475, 20);
+		textField_2.setBounds(141, 173, 475, 30);
 		createCustomers.add(textField_2);
 		textField_2.setColumns(10);
 
@@ -147,7 +147,7 @@ public class CustomerMenu extends JPanel {
 		createCustomers.add(lblPostNr);
 
 		textField_3 = new JTextField();
-		textField_3.setBounds(141, 217, 475, 20);
+		textField_3.setBounds(141, 217, 475, 30);
 		createCustomers.add(textField_3);
 		textField_3.setColumns(10);
 
@@ -156,7 +156,7 @@ public class CustomerMenu extends JPanel {
 		createCustomers.add(lblTelefon);
 
 		textField_4 = new JTextField();
-		textField_4.setBounds(141, 267, 475, 20);
+		textField_4.setBounds(141, 267, 475, 30);
 		createCustomers.add(textField_4);
 		textField_4.setColumns(10);
 
@@ -165,7 +165,7 @@ public class CustomerMenu extends JPanel {
 		createCustomers.add(lblType);
 
 		textField_5 = new JTextField();
-		textField_5.setBounds(141, 318, 475, 20);
+		textField_5.setBounds(141, 318, 475, 30);
 		createCustomers.add(textField_5);
 		textField_5.setColumns(10);
 
