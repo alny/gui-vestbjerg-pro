@@ -49,7 +49,6 @@ public class ProductMenu extends JPanel {
 	private JTextField nameField;
 	private JTextField descriptioneField;
 	private JTextField priceField;
-	private JTextField udleveringField;
 	
 	public ProductMenu(JPanel mainPanel, CardLayout cardLayout, ProductController p) {
 		parentPanel = mainPanel;
