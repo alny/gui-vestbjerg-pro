@@ -235,12 +235,20 @@ public class ProductMenu extends JPanel {
 			int min = Integer.parseInt(textField_5.getText());
 			int max = Integer.parseInt(textField_6.getText());
 			
+			if (JOptionPane.showConfirmDialog(null, "Bekræft Oprettelse?", "Advarsel",
+			        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+			    // yes option
+		
+			
 			pCtr.createMassProduct(barcode, name, description, price, amount, min, max);
 			DefaultTableModel model = (DefaultTableModel) table.getModel();
 			model.addRow(new Object[] {barcode, name, description, price, amount, min, max});
 			cleatTextFieldMassProduct();
 			JOptionPane.showMessageDialog(null, "Produkt Oprettet");
 			tabbedPane.setSelectedIndex(0);
+			} else {
+			   
+			}
 			
 			
 			
@@ -329,6 +337,11 @@ public class ProductMenu extends JPanel {
 			int min = Integer.parseInt(textField_12.getText());
 			int max = Integer.parseInt(textField_13.getText());
 			
+			if (JOptionPane.showConfirmDialog(null, "Bekræft Oprettelse?", "Advarsel",
+			        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+			    // yes option
+		
+			
 			clearTextFieldOpretUnikProdukt();
 			
 			pCtr.createUniqueProduct(barcode, name, description, price, amount, min, max);
@@ -336,6 +349,10 @@ public class ProductMenu extends JPanel {
 			model.addRow(new Object[] {barcode, name, description, price, amount, min, max});
 			JOptionPane.showMessageDialog(null, "Produkt Oprettet");
 			tabbedPane.setSelectedIndex(0);
+			}
+			else {
+				
+			}
 			}
 		});
 		button_1.setBounds(10, 238, 137, 23);
@@ -407,6 +424,11 @@ public class ProductMenu extends JPanel {
 		JButton button_3 = new JButton("Opret Produkt");
 		button_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+			
+			if (JOptionPane.showConfirmDialog(null, "Bekræft Oprettelse?", "Advarsel",
+				        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				    // yes option
+			
 			if(comboBox.getSelectedItem()==null) {
 			JOptionPane.showMessageDialog(null, "Vælg venligst udlevering");	
 			}else {
@@ -427,10 +449,14 @@ public class ProductMenu extends JPanel {
 			clearTextFieldOpretEksemplar();
 			tabbedPane.setSelectedIndex(1);
 			}
-			
-			
-			
+			}else {
+				
 			}
+			}
+			
+			
+			
+			
 		
 		});
 		button_3.setBounds(22, 230, 137, 23);
