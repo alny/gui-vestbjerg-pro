@@ -35,6 +35,7 @@ public class Loan
         calendar.set(Calendar.DAY_OF_YEAR, rDate);
         returnDate = new Date(calendar.getTimeInMillis());
         itemMap = new HashMap<Integer,Item>();
+        count++;
         
     }
     

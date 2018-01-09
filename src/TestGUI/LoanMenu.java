@@ -27,6 +27,10 @@ public class LoanMenu extends JPanel {
 	private LoanController lCtr;
 	private JTextField loanPeriodeField;
 	private JTextField custumerPhoneField;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private int id;
 
 	/**
 	 * Create the panel.
@@ -51,7 +55,7 @@ public class LoanMenu extends JPanel {
 				tabbedPane.setSelectedIndex(1);
 			}
 		});
-		allLoanButton.setBounds(29, 116, 131, 59);
+		allLoanButton.setBounds(29, 84, 131, 59);
 		panel.add(allLoanButton);
 		
 		JButton createLoanButton = new JButton("Opret L\u00E5n");
@@ -60,7 +64,7 @@ public class LoanMenu extends JPanel {
 				tabbedPane.setSelectedIndex(2);
 			}
 		});
-		createLoanButton.setBounds(170, 116, 131, 59);
+		createLoanButton.setBounds(170, 84, 131, 59);
 		panel.add(createLoanButton);
 		
 		JButton returnLoan = new JButton("Returner L\u00E5n");
@@ -69,7 +73,7 @@ public class LoanMenu extends JPanel {
 				tabbedPane.setSelectedIndex(3);
 			}
 		});
-		returnLoan.setBounds(311, 116, 131, 59);
+		returnLoan.setBounds(311, 84, 131, 59);
 		panel.add(returnLoan);
 		
 		JButton returntomain = new JButton("Tilbage");
@@ -81,6 +85,10 @@ public class LoanMenu extends JPanel {
 		});
 		returntomain.setBounds(29, 242, 89, 23);
 		panel.add(returntomain);
+		
+		JButton button_1 = new JButton("Tilf\u00F8j produkt til l\u00E5n");
+		button_1.setBounds(170, 154, 131, 59);
+		panel.add(button_1);
 		
 		JPanel allLoan = new JPanel();
 		tabbedPane.addTab("Liste over lån", null, allLoan, null);
@@ -147,10 +155,11 @@ public class LoanMenu extends JPanel {
 			String phone =custumerPhoneField.getText();
 			if (JOptionPane.showConfirmDialog(null, "Bekræft Oprettelse?", "Advarsel",
 					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-			lCtr.createLoan(day, phone);
+			id = lCtr.createLoan(day, phone);
 			clearCreateLoan();
-			JOptionPane.showMessageDialog(null, "Lån Oprettet");
-			tabbedPane.setSelectedIndex(1);
+			JOptionPane.showMessageDialog(null, "Lån Oprettet låne ID:" + id );
+			textField.setText(Integer.toString(id));
+			tabbedPane.setSelectedIndex(4);
 			}else {
 				
 			}
@@ -166,11 +175,74 @@ public class LoanMenu extends JPanel {
 		
 		JPanel panel_3 = new JPanel();
 		tabbedPane.addTab("Returner Lån", null, panel_3, null);
+		
+		JPanel panel_4 = new JPanel();
+		tabbedPane.addTab("Tilføj produkter til et lån", null, panel_4, null);
+		panel_4.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("L\u00E5ne ID");
+		lblNewLabel.setBounds(57, 57, 98, 14);
+		panel_4.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("Stregkode");
+		lblNewLabel_1.setBounds(57, 82, 98, 14);
+		panel_4.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("Serialnr.");
+		lblNewLabel_2.setBounds(57, 107, 98, 14);
+		panel_4.add(lblNewLabel_2);
+		
+		textField = new JTextField();
+		textField.setBounds(146, 54, 170, 20);
+		panel_4.add(textField);
+		textField.setColumns(10);
+		
+		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		textField_1.setBounds(146, 79, 170, 20);
+		panel_4.add(textField_1);
+		
+		textField_2 = new JTextField();
+		textField_2.setColumns(10);
+		textField_2.setBounds(146, 107, 170, 20);
+		panel_4.add(textField_2);
+		
+		JButton btnTilfjProdukt = new JButton("Tilf\u00F8j Produkt");
+		btnTilfjProdukt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+			if (JOptionPane.showConfirmDialog(null, "Bekræft Oprettelse?", "Advarsel",
+			JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {	
+				int lid = Integer.parseInt(textField.getText());
+				int bar = Integer.parseInt(textField_1.getText());
+				int serial = Integer.parseInt(textField_2.getText());
+				lCtr.addItem(lid, bar, serial);
+				JOptionPane.showMessageDialog(null, "Produkt tilføjet");
+				clearAddItem();
+				tabbedPane.setSelectedIndex(1);
+			}else {
+				
+			
+			}
+			}
+		});
+		btnTilfjProdukt.setBounds(57, 152, 110, 23);
+		panel_4.add(btnTilfjProdukt);
+		
+		JButton button_2 = new JButton("Annuller");
+		button_2.setBounds(177, 152, 110, 23);
+		panel_4.add(button_2);
 
 	}
 	public void clearCreateLoan() {
 	custumerPhoneField.setText("");
 	loanPeriodeField.setText("");
+	}
+	public void clearAddItem() {
+	textField.setText("");
+	textField_1.setText("");
+	textField_2.setText("");
 	}
 	}
 
