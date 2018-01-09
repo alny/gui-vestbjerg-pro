@@ -10,6 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 import ControllerLayer.AccountController;
 import ControllerLayer.OrderController;
@@ -32,6 +34,9 @@ public class MainMenu extends JFrame {
 			public void run() {
 				try {
 					MainMenu frame = new MainMenu();
+					UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+					SwingUtilities.updateComponentTreeUI(frame);
+					
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

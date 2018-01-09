@@ -6,14 +6,15 @@ import javax.swing.table.AbstractTableModel;
 
 import ModelLayer.Account;
 
-public class CustomerTableModel extends AbstractTableModel {
+public class OrderTableModel extends AbstractTableModel {
 
 	private Map<String, Account> db;
-	public final String columnNames[] = new String[] { "Navn", "Addresse", "Post Nr", "By", "Telefon" };
+	public final String columnNames[] = new String[] { "Stregkode", "Navn", "Beskrivelse", "Pris", "Antal" };
 
 	public void setData(Map<String, Account> db) {
 		this.db = db;
 	}
+	
 
 	public String getColumnName(int columnIndex) {
 		return (columnIndex < columnNames.length) ? columnNames[columnIndex] : null;
