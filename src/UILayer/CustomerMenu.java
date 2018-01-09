@@ -103,7 +103,7 @@ public class CustomerMenu {
     public void getReceivable(){
         System.out.println("angiv kunde telefonnr.");
         String phone = keyboard.next();
-        System.out.println("Vores tilgodehanvende ved kunden: "+accountCtr.getReceivable(phone));  
+        System.out.println("Vores tilgodehanvende ved kunden: " + accountCtr.getReceivable(phone));  
         String vent = keyboard.next();
     }
 

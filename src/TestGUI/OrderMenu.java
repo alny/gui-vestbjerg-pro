@@ -67,8 +67,10 @@ public class OrderMenu extends JPanel {
 
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		add(tabbedPane, BorderLayout.CENTER);
+		
 		tabbedPane.addTab("Ordre Menu", null, orderMainMenu(), null);
 		tabbedPane.addTab("Opret Salg", null, createSale(), null);
+		tabbedPane.setEnabledAt(1, false);
 	}
 
 	private JPanel orderMainMenu() {
@@ -88,8 +90,10 @@ public class OrderMenu extends JPanel {
 		JButton btnSalgUKunde = new JButton("Salg u. Kunde");
 		btnSalgUKunde.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				tabbedPane.setEnabledAt(1, true);
 				tabbedPane.setSelectedIndex(1);
 				id = orderCtr.createOrder();
+				
 			}
 		});
 		btnSalgUKunde.setBounds(274, 270, 196, 72);
@@ -119,6 +123,7 @@ public class OrderMenu extends JPanel {
 		JButton btnAfslutSalg = new JButton("Afslut Salg");
 		btnAfslutSalg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				tabbedPane.setEnabledAt(1, false);
 				clearOrdreData();
 			}
 		});
@@ -127,6 +132,7 @@ public class OrderMenu extends JPanel {
 		JButton btnAnnuller = new JButton("Annuller");
 		btnAnnuller.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				tabbedPane.setEnabledAt(1, false);
 				tabbedPane.setSelectedIndex(0);
 			}
 		});
@@ -280,6 +286,7 @@ public class OrderMenu extends JPanel {
 		phone = textField.getText();
 		id = orderCtr.createOrder(status, address, phone);
 		dialog.setVisible(false);
+		tabbedPane.setEnabledAt(1, true);
 		tabbedPane.setSelectedIndex(1);
 	}
 
