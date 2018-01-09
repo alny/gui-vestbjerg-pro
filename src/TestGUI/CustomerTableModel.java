@@ -40,9 +40,7 @@ public class CustomerTableModel extends AbstractTableModel {
 	public Object getValueAt(int row, int col) {
 
 		String[] accountIdArray = db.keySet().toArray(new String[db.keySet().size()]);
-
 		Account customer = db.get(accountIdArray[row]);
-
 		switch (col) {
 		case 0:
 			return customer.getName();

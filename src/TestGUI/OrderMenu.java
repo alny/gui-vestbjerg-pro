@@ -213,7 +213,7 @@ public class OrderMenu extends JPanel {
 		panel_2.add(lblNewLabel_1);
 
 		textField_4 = new JTextField();
-		textField_4.setBounds(66, 27, 153, 22);
+		textField_4.setBounds(66, 27, 153, 30);
 		panel_2.add(textField_4);
 		textField_4.setColumns(10);
 		
