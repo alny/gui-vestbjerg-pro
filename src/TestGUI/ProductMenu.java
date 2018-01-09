@@ -315,7 +315,7 @@ public class ProductMenu extends JPanel {
 				int barcode = Integer.parseInt(textField_7.getText());
 				String name = textField_8.getText();
 				String description = textField_9.getText();
-				int price = Integer.parseInt(textField_10.getText());
+				double price = Double.parseDouble(textField_10.getText());
 				int amount = 0;
 				int min = Integer.parseInt(textField_12.getText());
 				int max = Integer.parseInt(textField_13.getText());
@@ -361,42 +361,15 @@ public class ProductMenu extends JPanel {
 		label_4.setBounds(22, 31, 89, 14);
 		UniktEksemplar.add(label_4);
 
-		nameField = new JTextField();
-		nameField.setColumns(10);
-		nameField.setBounds(124, 55, 294, 30);
-		UniktEksemplar.add(nameField);
-
-		JLabel label_7 = new JLabel("Navn");
-		label_7.setBounds(22, 58, 46, 14);
-		UniktEksemplar.add(label_7);
-
-		JLabel label_8 = new JLabel("Beskrivelse");
-		label_8.setBounds(22, 83, 89, 14);
-		UniktEksemplar.add(label_8);
-
-		descriptioneField = new JTextField();
-		descriptioneField.setColumns(10);
-		descriptioneField.setBounds(124, 80, 294, 30);
-		UniktEksemplar.add(descriptioneField);
-
-		priceField = new JTextField();
-		priceField.setColumns(10);
-		priceField.setBounds(124, 105, 294, 30);
-		UniktEksemplar.add(priceField);
-
-		JLabel label_9 = new JLabel("Pris");
-		label_9.setBounds(22, 108, 46, 14);
-		UniktEksemplar.add(label_9);
-
 		JLabel label_10 = new JLabel("Udlevering");
-		label_10.setBounds(22, 133, 89, 14);
+		label_10.setBounds(22, 63, 89, 14);
 		UniktEksemplar.add(label_10);
 
 		JComboBox comboBox = new JComboBox();
 		comboBox.addItem("Ja");
 		comboBox.addItem("Nej");
 		comboBox.setSelectedItem(null);
-		comboBox.setBounds(124, 130, 294, 30);
+		comboBox.setBounds(124, 63, 294, 30);
 		UniktEksemplar.add(comboBox);
 
 		JButton button_3 = new JButton("Opret Produkt");
@@ -411,9 +384,10 @@ public class ProductMenu extends JPanel {
 						JOptionPane.showMessageDialog(null, "Vælg venligst udlevering");
 					} else {
 						int bar = Integer.parseInt(barcodeField.getText());
-						String name = nameField.getText();
-						String description = descriptioneField.getText();
-						int price = Integer.parseInt(priceField.getText());
+						Product productObj = pCtr.findSpecificProduct(bar);
+						String name = productObj.getName();
+						String description = productObj.getDescription();
+						double price = productObj.getPrice();
 						boolean udlevering;
 						if (comboBox.getSelectedItem() == "ja") {
 							udlevering = true;
@@ -433,7 +407,7 @@ public class ProductMenu extends JPanel {
 			}
 
 		});
-		button_3.setBounds(22, 230, 137, 23);
+		button_3.setBounds(22, 120, 137, 23);
 		UniktEksemplar.add(button_3);
 
 		JButton button_4 = new JButton("Anuller");
@@ -443,7 +417,7 @@ public class ProductMenu extends JPanel {
 				clearTextFieldOpretEksemplar();
 			}
 		});
-		button_4.setBounds(169, 230, 89, 23);
+		button_4.setBounds(169, 120, 89, 23);
 		UniktEksemplar.add(button_4);
 	}
 	

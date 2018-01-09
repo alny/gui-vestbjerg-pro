@@ -35,7 +35,7 @@ public class ProductController {
 		return "Produkt oprettet";
 	}
 
-	public String createUniqueProduct(int barcode, String name, String description, int price, int amount, int min,
+	public String createUniqueProduct(int barcode, String name, String description, double price, int amount, int min,
 			int max) {
 		UniqueProduct uniqueProduct = new UniqueProduct(barcode, name, description, price, amount, min, max);
 		productContainer.addProduct(uniqueProduct);
@@ -50,7 +50,7 @@ public class ProductController {
 		return productContainer.isUnique(barcode);
 	}
 
-	public String createItem(int bar, String name, String description, int price, boolean udlevering) {
+	public String createItem(int bar, String name, String description, double price, boolean udlevering) {
 		String kopi = "Kopi oprettet";
 		if (isUnique(bar) == true) {
 			UniqueProduct p = (UniqueProduct) findSpecificProduct(bar);
