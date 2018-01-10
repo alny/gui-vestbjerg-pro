@@ -221,7 +221,7 @@ public class LoanMenu extends JPanel {
 		JButton btnReturnerLn = new JButton("Returner L\u00E5n");
 		btnReturnerLn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (JOptionPane.showConfirmDialog(null, "Bekræft Oprettelse?", "Advarsel",
+				if (JOptionPane.showConfirmDialog(null, "Bekræft Returnering?", "Advarsel",
 						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 				int rid = Integer.parseInt(loanid.getText());
 				int bar = Integer.parseInt(barcodeRLoan.getText());
