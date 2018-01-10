@@ -55,9 +55,9 @@ public class ProductMenu extends JPanel {
 		parentPanel = mainPanel;
 		parent = cardLayout;
 		pCtr = p;
-		// pCtr.createdummydata();
-		// pCtr.createdummydata();
-		// pCtr.createdummydata();
+		pCtr.createdummydata();
+		pCtr.createdummydata();
+		pCtr.createdummydata();
 		setLayout(null);
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -65,7 +65,7 @@ public class ProductMenu extends JPanel {
 		add(tabbedPane);
 
 		JPanel Forside = new JPanel();
-		tabbedPane.addTab("Produkter", null, Forside, null);
+		tabbedPane.addTab("Forside", null, Forside, null);
 		Forside.setLayout(null);
 
 		JButton btnNewButton_2 = new JButton("Unikt Produkt");
@@ -96,7 +96,7 @@ public class ProductMenu extends JPanel {
 		Forside.add(button);
 
 		JPanel MasseProdukt = new JPanel();
-		tabbedPane.addTab("Masse Produkter", null, MasseProdukt, null);
+		tabbedPane.addTab("Produkter", null, MasseProdukt, null);
 		MasseProdukt.setLayout(new BorderLayout(0, 0));
 
 		tableModel = new ProductTableModel();
