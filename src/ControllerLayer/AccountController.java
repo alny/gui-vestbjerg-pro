@@ -92,4 +92,7 @@ public class AccountController {
 	public double getDiscount(String phone) {
 		return accountContainer.getDiscount(phone);
 	}
+	public Map<Integer,Order> getOrders(String phone){
+		return accountContainer.getOrders(phone);
+	}
 }

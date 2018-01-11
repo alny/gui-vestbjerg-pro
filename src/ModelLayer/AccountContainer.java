@@ -120,5 +120,8 @@ public class AccountContainer {
     public void setDiscount(String phone, double s){
       accountMap.get(phone).setDiscount(s);    
     }
+    public Map<Integer,Order> getOrders(String phone){
+    	return accountMap.get(phone).getorders();
+    }
 }
 

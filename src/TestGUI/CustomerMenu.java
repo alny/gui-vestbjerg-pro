@@ -242,7 +242,7 @@ public class CustomerMenu extends JPanel {
 								String zip =  accountCtr.findCustomer(getPhone).getZip();
 								String city =  accountCtr.findCustomer(getPhone).getCity();
 								String phone = getPhone;
-								table_1.setModel(orderTable(accountCtr.getOrder(phone)));
+								table_1.setModel(orderTable(accountCtr.getOrders(phone)));
 								
 								
 								nameField.setText(name);
