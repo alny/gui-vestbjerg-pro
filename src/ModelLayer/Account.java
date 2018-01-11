@@ -90,7 +90,7 @@ public abstract class Account
     }
     
 
-  public HashMap<Integer, Loan> getLoans() {
+  public Map<Integer, Loan> getLoans() {
 		return loans;
 	}
 

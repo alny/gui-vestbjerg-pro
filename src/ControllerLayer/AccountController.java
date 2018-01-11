@@ -2,7 +2,6 @@ package ControllerLayer;
 
 import ModelLayer.AccountContainer;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import ModelLayer.Account;
@@ -92,9 +91,5 @@ public class AccountController {
 
 	public double getDiscount(String phone) {
 		return accountContainer.getDiscount(phone);
-	}
-	
-	public Map<Integer,Order> getOrder(String phone) {
-		return accountContainer.getOrder(phone);
 	}
 }

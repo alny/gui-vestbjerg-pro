@@ -24,7 +24,7 @@ public class MainMenu extends JFrame {
 	private JPanel menuPanel;
 	private CustomerMenu customerMenu;
 	private ProductMenu productMenu;
-	private LoanMenu loanMenu;
+	private LoanMenuFuckSwing LoanMenuFuckSwing;
 	private OrderMenu orderMenu;
 	private AccountController accountCtr;
 	private OrderController orderCtr;
@@ -52,26 +52,13 @@ public class MainMenu extends JFrame {
 		orderCtr = new OrderController();
 		productCtr = new ProductController();
 		loanCtr = new LoanController();
-		
-		accountCtr.createAccount("Erik", "Erikvej 32", "9000", "Aalborg", "123", "type");
-		accountCtr.createAccount("Findus", "Yolovej 32", "2100", "København", "321", "type");
-		accountCtr.createAccount("Finn", "Yolovej 32", "6000", "Århus", "333", "type");
-		productCtr.createUniqueProduct(555, "Traktor", "Fed Traktor", 500.00, 1, 2, 4);
-		productCtr.createItem(555, "Traktor", "Fed Traktor", 500.00, true);
-		productCtr.createItem(555, "Traktor", "Fed Traktor", 500.00, true);
-		productCtr.createItem(555, "Traktor", "Fed Traktor", 500.00, true);
-		loanCtr.createLoan(5, "123");
-		loanCtr.createLoan(2, "321");
-		loanCtr.addItem(1001, 555, 1001);
-
 		CardLayout cl = new CardLayout();
 		parentPanel = new JPanel();
 		menuPanel = new JPanel();
 		customerMenu = new CustomerMenu(parentPanel, cl, accountCtr, orderCtr);
 		productMenu = new ProductMenu(parentPanel, cl, productCtr);
-		loanMenu = new LoanMenu(parentPanel,cl,loanCtr, accountCtr, productCtr);
+		LoanMenuFuckSwing = new LoanMenuFuckSwing(parentPanel,cl,loanCtr, accountCtr, productCtr);
 		orderMenu = new OrderMenu(parentPanel, cl, orderCtr, accountCtr, productCtr);
-		
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 750, 500);
@@ -83,7 +70,7 @@ public class MainMenu extends JFrame {
 		parentPanel.add(menuPanel, "1");
 		parentPanel.add(customerMenu, "2");
 		parentPanel.add(productMenu, "3");
-		parentPanel.add(loanMenu, "4");
+		parentPanel.add(LoanMenuFuckSwing, "4");
 		parentPanel.add(orderMenu, "5");
 		menuPanel.setLayout(null);
 

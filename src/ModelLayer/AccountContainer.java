@@ -30,17 +30,15 @@ public class AccountContainer {
     }
     
     public Map<String, Account> getAccountsWithLoan(){
-    	System.out.println("Test");
+    	
     	Map<String, Account> accountWithLoanMap = new HashMap<String, Account>();
-    	System.out.println(accountMap);
+//    	System.out.println(accountMap);
     	for (Map.Entry<String, Account> entry : accountMap.entrySet()) {
-    		System.out.println(entry.getValue().getLoans().isEmpty());
-    		System.out.println("Test");
-    		if(!entry.getValue().getLoans().isEmpty()) {
+    		System.out.println(entry.getValue().getLoans());
+    		if(entry.getValue().getLoans().isEmpty() == false) {
     			
     			accountWithLoanMap.put(entry.getKey(), entry.getValue());
-    			System.out.println(accountWithLoanMap);
-    			System.out.println("Test");
+    			
     		}
     	}
       	 return accountWithLoanMap;
@@ -121,9 +119,6 @@ public class AccountContainer {
     
     public void setDiscount(String phone, double s){
       accountMap.get(phone).setDiscount(s);    
-    }
-    public Map<Integer, Order> getOrder(String phone) {
-    return accountMap.get(phone).getorders();
     }
 }
 
