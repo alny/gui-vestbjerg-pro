@@ -17,6 +17,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import ControllerLayer.AccountController;
+import javax.swing.JSplitPane;
+import javax.swing.JSeparator;
+import javax.swing.JList;
 
 public class CustomerMenu extends JPanel {
 
@@ -33,6 +36,12 @@ public class CustomerMenu extends JPanel {
 	private CustomerTableModel tableModel;
 	private JTable jt;
 	private JLabel label;
+	private JTextField nameField;
+	private JTextField StreetField;
+	private JTable table;
+	private JTextField ZipField;
+	private JTextField cityField;
+	private JTextField phoneField;
 
 	public CustomerMenu(JPanel mainPanel, CardLayout cardLayout, AccountController aCtr) {
 		parentPanel = mainPanel;
@@ -48,6 +57,73 @@ public class CustomerMenu extends JPanel {
 		add(tabbedPane, BorderLayout.CENTER);
 		tabbedPane.addTab("Kundeliste", null, showCustomers(), null);
 		tabbedPane.addTab("Opret Kunde", null, createCustomers(), null);
+		
+		JPanel Kunde = new JPanel();
+		tabbedPane.addTab("Kunde", null, Kunde, null);
+		Kunde.setLayout(null);
+		
+		JLabel lblNavn_1 = new JLabel("Navn:");
+		lblNavn_1.setBounds(36, 26, 46, 14);
+		Kunde.add(lblNavn_1);
+		
+		JLabel lblAdresse_1 = new JLabel("Vejnavn:");
+		lblAdresse_1.setBounds(36, 52, 46, 14);
+		Kunde.add(lblAdresse_1);
+		
+		JLabel lblZip = new JLabel("ZIP:");
+		lblZip.setBounds(36, 77, 46, 14);
+		Kunde.add(lblZip);
+		
+		JLabel lblBy_1 = new JLabel("By:");
+		lblBy_1.setBounds(36, 102, 46, 14);
+		Kunde.add(lblBy_1);
+		
+		JLabel lblTelefon_1 = new JLabel("Telefon:");
+		lblTelefon_1.setBounds(36, 127, 46, 14);
+		Kunde.add(lblTelefon_1);
+		
+		nameField = new JTextField();
+		nameField.setBounds(92, 23, 172, 23);
+		Kunde.add(nameField);
+		nameField.setColumns(10);
+		
+		StreetField = new JTextField();
+		StreetField.setColumns(10);
+		StreetField.setBounds(92, 49, 172, 23);
+		Kunde.add(StreetField);
+		
+		JButton btnNewButton = new JButton("Opdater Stamdata");
+		btnNewButton.setBounds(36, 158, 143, 23);
+		Kunde.add(btnNewButton);
+		
+		JButton btnAnnuller_1 = new JButton("Annuller");
+		btnAnnuller_1.setBounds(176, 158, 88, 23);
+		Kunde.add(btnAnnuller_1);
+		
+		JLabel lblOrdreOversigt = new JLabel("Ordre Oversigt");
+		lblOrdreOversigt.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblOrdreOversigt.setBounds(462, 20, 143, 20);
+		Kunde.add(lblOrdreOversigt);
+		
+		table = new JTable();
+		table.setBounds(398, 355, 337, -302);
+		Kunde.add(table);
+		
+		
+		ZipField = new JTextField();
+		ZipField.setColumns(10);
+		ZipField.setBounds(92, 74, 172, 23);
+		Kunde.add(ZipField);
+		
+		cityField = new JTextField();
+		cityField.setColumns(10);
+		cityField.setBounds(92, 99, 172, 23);
+		Kunde.add(cityField);
+		
+		phoneField = new JTextField();
+		phoneField.setColumns(10);
+		phoneField.setBounds(92, 124, 172, 23);
+		Kunde.add(phoneField);
 	}
 
 	public JPanel showCustomers() {
@@ -56,51 +132,84 @@ public class CustomerMenu extends JPanel {
 		accountCtr.createAccount("Findus", "Yolovej 32", "2100", "København", "321", "type");
 
 		JPanel showCustomers = new JPanel();
-		showCustomers.setLayout(new BorderLayout(0, 0));
-		// showCustomers.setLayout(null);
+		showCustomers.setLayout(null);
+		showCustomers.setLayout(null);
 		
 		tableModel = new CustomerTableModel();
 		tableModel.setData(accountCtr.getCustomers());
+		
+	
 
 		jt = new JTable(tableModel);
 		JScrollPane sp = new JScrollPane();
-		sp.setBounds(88, 251, 452, 155);
+		sp.setBounds(0, 0, 735, 390);
 		sp.setViewportView(jt);
 		showCustomers.add(sp);
 
 		JPanel panel = new JPanel();
-		showCustomers.add(panel, BorderLayout.SOUTH);
-		panel.setLayout(new FlowLayout(FlowLayout.LEADING, 5, 5));
-
-		JButton btnOpretKunde = new JButton("Opret Kunde");
-		btnOpretKunde.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				tabbedPane.setSelectedIndex(1);
-			}
-		});
-		panel.add(btnOpretKunde);
-
-		JButton btnOpret = new JButton("Slet Kunde");
-		btnOpret.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int row = jt.getSelectedRow();
-				String getPhone = tableModel.removeRow(row);
-				accountCtr.removeAccount(getPhone);
-				tableModel.fireTableRowsDeleted(row, row);
-			}
-		});
-		panel.add(btnOpret);
-
-		JButton btnTilbag = new JButton("Tilbage");
-		btnTilbag.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				parent.show(parentPanel, "1");
-			}
-		});
-		panel.add(btnTilbag);
+		panel.setBounds(0, 0, 0, 0);
+		showCustomers.add(panel);
+		FlowLayout fl_panel = new FlowLayout(FlowLayout.RIGHT, 5, 5);
+		panel.setLayout(fl_panel);
 		label = new JLabel("");
 		label.setForeground(Color.RED);
 		panel.add(label);
+		
+				JButton btnOpretKunde = new JButton("Opret Kunde");
+				btnOpretKunde.setBounds(14, 400, 105, 23);
+				showCustomers.add(btnOpretKunde);
+				
+						JButton btnOpret = new JButton("Slet Kunde");
+						btnOpret.setBounds(290, 400, 100, 23);
+						showCustomers.add(btnOpret);
+						
+						JButton btnKundeOplysninger = new JButton("Kunde Oplysninger");
+						btnKundeOplysninger.setBounds(127, 400, 153, 23);
+						showCustomers.add(btnKundeOplysninger);
+						
+								JButton btnTilbag = new JButton("Tilbage");
+								btnTilbag.setBounds(400, 400, 80, 23);
+								showCustomers.add(btnTilbag);
+								btnTilbag.addActionListener(new ActionListener() {
+									public void actionPerformed(ActionEvent e) {
+										parent.show(parentPanel, "1");
+									}
+								});
+						btnKundeOplysninger.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent arg0) {
+								int row = jt.getSelectedRow();
+								String getPhone = tableModel.removeRow(row);
+								String name = accountCtr.findCustomer(getPhone).getName();
+								String adress = accountCtr.findCustomer(getPhone).getAddress();
+								String zip =  accountCtr.findCustomer(getPhone).getZip();
+								String city =  accountCtr.findCustomer(getPhone).getCity();
+								String phone = getPhone;
+								
+								nameField.setText(name);
+								StreetField.setText(adress);
+								ZipField.setText(zip);
+								cityField.setText(city);
+								phoneField.setText(phone);
+								tabbedPane.setSelectedIndex(2);
+								
+								
+								
+								
+							}
+						});
+						btnOpret.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								int row = jt.getSelectedRow();
+								String getPhone = tableModel.removeRow(row);
+								accountCtr.removeAccount(getPhone);
+								tableModel.fireTableRowsDeleted(row, row);
+							}
+						});
+				btnOpretKunde.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						tabbedPane.setSelectedIndex(1);
+					}
+				});
 
 		return showCustomers;
 
