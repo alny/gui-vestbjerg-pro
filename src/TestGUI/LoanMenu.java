@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -34,13 +35,13 @@ public class LoanMenu extends JPanel {
 	private AccountController accountCtr;
 	private ProductController productCtr;
 	private JTabbedPane tabbedPane;
-	private JTable jt;
+	private JTable itemTable;
+	private JTable customerTable;
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_4;
 	private JTextField textField_5;
 	private JTextField textField_6;
-	private CustomerTableModel tableModel;
 	private boolean status = false;
 	private JDialog dialog;
 	private int id;
@@ -54,7 +55,8 @@ public class LoanMenu extends JPanel {
 	private int barcode;
 	private double total;
 
-	public LoanMenu(JPanel mainPanel, CardLayout cardLayout, LoanController lCtr, AccountController aCtr, ProductController pCtr) {
+	public LoanMenu(JPanel mainPanel, CardLayout cardLayout, LoanController lCtr, AccountController aCtr,
+			ProductController pCtr) {
 		parentPanel = mainPanel;
 		parent = cardLayout;
 		loanCtr = lCtr;
@@ -69,10 +71,11 @@ public class LoanMenu extends JPanel {
 
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		add(tabbedPane, BorderLayout.CENTER);
-		
+
 		tabbedPane.addTab("Lån Menu", null, loanMainMenu(), null);
 		tabbedPane.addTab("Liste over Lån", null, loanListPanel(), null);
 		tabbedPane.addTab("Opret Lån", null, createLoanPanel(), null);
+		tabbedPane.setEnabledAt(1, false);
 		tabbedPane.setEnabledAt(2, false);
 	}
 
@@ -81,21 +84,21 @@ public class LoanMenu extends JPanel {
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(null);
 
-		JButton btnSalgMKunde = new JButton("Se alle L\u00E5n");
-		btnSalgMKunde.addActionListener(new ActionListener() {
+		JButton btnSeAlleLån = new JButton("Se alle L\u00E5n");
+		btnSeAlleLån.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				refresh();
-				tabbedPane.setEnabledAt(2, true);
 				tabbedPane.setSelectedIndex(1);
+
 			}
 		});
-		btnSalgMKunde.setBounds(142, 193, 144, 64);
-		mainPanel.add(btnSalgMKunde);
+		btnSeAlleLån.setBounds(142, 193, 144, 64);
+		mainPanel.add(btnSeAlleLån);
 
 		JButton btnSalgUKunde = new JButton("Opret L\u00E5n");
 		btnSalgUKunde.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				customerDialog();				
+				customerDialog();
 			}
 		});
 		btnSalgUKunde.setBounds(299, 193, 143, 64);
@@ -109,14 +112,14 @@ public class LoanMenu extends JPanel {
 		});
 		btnTilbage.setBounds(24, 367, 97, 25);
 		mainPanel.add(btnTilbage);
-		
+
 		JButton button = new JButton("Returner L\u00E5n");
 		button.setBounds(454, 192, 143, 64);
 		mainPanel.add(button);
 
 		return mainPanel;
 	}
-	
+
 	private JPanel createLoanPanel() {
 		JPanel loanPanel = new JPanel();
 		loanPanel.setLayout(new BorderLayout(0, 0));
@@ -143,10 +146,10 @@ public class LoanMenu extends JPanel {
 			}
 		});
 		panel_1.add(btnAnnuller);
-		
+
 		JLabel lblNewLabel_4 = new JLabel("Total Pris:");
 		panel_1.add(lblNewLabel_4);
-		
+
 		label_6 = new JLabel("");
 		panel_1.add(label_6);
 
@@ -154,57 +157,57 @@ public class LoanMenu extends JPanel {
 		JPanel panel_2 = new JPanel();
 		loanPanel.add(panel, BorderLayout.CENTER);
 
-		jt = new JTable();
+		itemTable = new JTable();
 
-		jt.setModel(itemTable());
+		itemTable.setModel(itemTable());
 		JScrollPane sp = new JScrollPane();
 		sp.setBounds(88, 251, 452, 155);
-		sp.setViewportView(jt);
+		sp.setViewportView(itemTable);
 		panel.add(sp);
 
 		JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panel, panel_2);
 		panel_2.setLayout(null);
-				
-					JLabel lblTelefon = new JLabel("Telefon");
-					lblTelefon.setBounds(12, 275, 56, 16);
-					panel_2.add(lblTelefon);
 
-					JLabel lblAdresse = new JLabel("Adresse");
-					lblAdresse.setBounds(12, 161, 56, 16);
-					panel_2.add(lblAdresse);
+		JLabel lblTelefon = new JLabel("Telefon");
+		lblTelefon.setBounds(12, 275, 56, 16);
+		panel_2.add(lblTelefon);
 
-					JLabel lblNewLabel = new JLabel("Navn");
-					lblNewLabel.setBounds(12, 123, 56, 16);
-					panel_2.add(lblNewLabel);
+		JLabel lblAdresse = new JLabel("Adresse");
+		lblAdresse.setBounds(12, 161, 56, 16);
+		panel_2.add(lblAdresse);
 
-					JLabel lblNewLabel_2 = new JLabel("By");
-					lblNewLabel_2.setBounds(12, 200, 56, 16);
-					panel_2.add(lblNewLabel_2);
+		JLabel lblNewLabel = new JLabel("Navn");
+		lblNewLabel.setBounds(12, 123, 56, 16);
+		panel_2.add(lblNewLabel);
 
-					JLabel lblNewLabel_3 = new JLabel("Post Nr");
-					lblNewLabel_3.setBounds(12, 236, 56, 16);
-					panel_2.add(lblNewLabel_3);
+		JLabel lblNewLabel_2 = new JLabel("By");
+		lblNewLabel_2.setBounds(12, 200, 56, 16);
+		panel_2.add(lblNewLabel_2);
 
-					label = new JLabel("");
-					label.setBounds(79, 123, 140, 16);
-					panel_2.add(label);
+		JLabel lblNewLabel_3 = new JLabel("Post Nr");
+		lblNewLabel_3.setBounds(12, 236, 56, 16);
+		panel_2.add(lblNewLabel_3);
 
-					label_2 = new JLabel("");
-					label_2.setBounds(78, 162, 141, 14);
-					panel_2.add(label_2);
+		label = new JLabel("");
+		label.setBounds(79, 123, 140, 16);
+		panel_2.add(label);
 
-					label_3 = new JLabel("");
-					label_3.setBounds(78, 201, 141, 14);
-					panel_2.add(label_3);
+		label_2 = new JLabel("");
+		label_2.setBounds(78, 162, 141, 14);
+		panel_2.add(label_2);
 
-					label_4 = new JLabel("");
-					label_4.setBounds(78, 236, 131, 14);
-					panel_2.add(label_4);
+		label_3 = new JLabel("");
+		label_3.setBounds(78, 201, 141, 14);
+		panel_2.add(label_3);
 
-					label_5 = new JLabel("");
-					label_5.setBounds(78, 276, 141, 14);
-					panel_2.add(label_5);
-		
+		label_4 = new JLabel("");
+		label_4.setBounds(78, 236, 131, 14);
+		panel_2.add(label_4);
+
+		label_5 = new JLabel("");
+		label_5.setBounds(78, 276, 141, 14);
+		panel_2.add(label_5);
+
 		JButton btnNewButton = new JButton("Tilf\u00F8j Produkt");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -223,13 +226,12 @@ public class LoanMenu extends JPanel {
 		textField_4.setBounds(66, 27, 153, 30);
 		panel_2.add(textField_4);
 		textField_4.setColumns(10);
-		
 
 		loanPanel.add(split);
 
 		return loanPanel;
 	}
-	
+
 	private JPanel loanListPanel() {
 		JPanel loanPanel = new JPanel();
 		loanPanel.setLayout(new BorderLayout(0, 0));
@@ -256,17 +258,12 @@ public class LoanMenu extends JPanel {
 			}
 		});
 		panel_1.add(btnAnnuller);
-		
-		
-		tableModel = new CustomerTableModel();
-		tableModel.setData(accountCtr.getAccountsWithLoan());
-		jt = new JTable();
+		customerTable = new JTable();
 		refresh();
 
-		jt.setModel(tableModel);
 		JScrollPane sp = new JScrollPane();
 		sp.setBounds(88, 251, 452, 155);
-		sp.setViewportView(jt);
+		sp.setViewportView(customerTable);
 		loanPanel.add(sp);
 
 		return loanPanel;
@@ -308,7 +305,7 @@ public class LoanMenu extends JPanel {
 		btnOpretOrdre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				createLoan();
-//				setCustomerInfo();
+				// setCustomerInfo();
 			}
 		});
 		btnOpretOrdre.setBounds(12, 315, 157, 25);
@@ -321,11 +318,12 @@ public class LoanMenu extends JPanel {
 		System.out.println(day);
 		if (JOptionPane.showConfirmDialog(null, "Bekråft Oprettelse?", "Advarsel",
 				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-		id = loanCtr.createLoan(day, phone);
-		textField.setText(Integer.toString(id));
-		tabbedPane.setSelectedIndex(1);
-		dialog.setVisible(false);
-		dialog.dispose();
+			id = loanCtr.createLoan(day, phone);
+			System.out.println(id);
+			textField.setText(Integer.toString(id));
+			tabbedPane.setSelectedIndex(2);
+			dialog.setVisible(false);
+			dialog.dispose();
 		}
 	}
 
@@ -380,7 +378,7 @@ public class LoanMenu extends JPanel {
 				String description = productObj.getDescription();
 				double price = productObj.getPrice();
 
-				DefaultTableModel model = (DefaultTableModel) jt.getModel();
+				DefaultTableModel model = (DefaultTableModel) itemTable.getModel();
 				model.addRow(new Object[] { tBarcode, name, description, price, 1 });
 				dialog.setVisible(false);
 				dialog.dispose();
@@ -389,12 +387,12 @@ public class LoanMenu extends JPanel {
 		btnOpretOrdre.setBounds(12, 215, 157, 25);
 		panel_1.add(btnOpretOrdre);
 	}
-	
+
 	public void refresh() {
-		tableModel.fireTableDataChanged();
+		customerTable.setModel(customerTable(accountCtr.getAccountsWithLoan()));
 		System.out.println("REFRESH");
 	}
-	
+
 	public void clearOrdreData() {
 		label.setText("");
 		label_2.setText("");
@@ -404,17 +402,17 @@ public class LoanMenu extends JPanel {
 		label_6.setText("");
 		textField_4.setText("");
 		total = 0;
-		DefaultTableModel model = (DefaultTableModel) jt.getModel();
+		DefaultTableModel model = (DefaultTableModel) itemTable.getModel();
 		model.getDataVector().removeAllElements();
 		model.fireTableDataChanged();
 		tabbedPane.setSelectedIndex(0);
 	}
-	
+
 	public void totalPrice(double p, int amount) {
-		int price = (int) p; 
+		int price = (int) p;
 		int multiply = price * amount;
 		total += multiply;
-		label_6.setText(String.valueOf(total));		
+		label_6.setText(String.valueOf(total));
 	}
 
 	public TableModel itemTable() {
@@ -423,4 +421,18 @@ public class LoanMenu extends JPanel {
 		return model;
 
 	}
+
+	public TableModel customerTable(Map<String, Account> map) {
+
+		DefaultTableModel model = new DefaultTableModel(new Object[] { "Navn", "Adresse", "Post Nr", "By", "Telefon" },
+				0);
+		for (Map.Entry<String, Account> entry : map.entrySet()) {
+
+			model.addRow(new Object[] { entry.getValue().getName(), entry.getValue().getAddress(),
+					entry.getValue().getZip(), entry.getValue().getCity(), entry.getValue().getPhone() });
+		}
+		return model;
+
+	}
+
 }
