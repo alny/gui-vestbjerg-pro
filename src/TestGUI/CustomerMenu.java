@@ -28,6 +28,7 @@ import ModelLayer.Order;
 import javax.swing.JSplitPane;
 import javax.swing.JSeparator;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 import java.awt.Rectangle;
 import java.awt.ComponentOrientation;
@@ -112,10 +113,41 @@ public class CustomerMenu extends JPanel {
 		Kunde.add(StreetField);
 		
 		JButton btnNewButton = new JButton("Opdater Stamdata");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (JOptionPane.showConfirmDialog(null, "Er du sikker på du vil ændre stamdata?", "Advarsel",
+						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				accountCtr.setName(phone, nameField.getText());
+				accountCtr.setAdress(phone, StreetField.getText());
+				accountCtr.setZip(phone, ZipField.getText());
+				accountCtr.setCity(phone, cityField.getText());
+				accountCtr.updatePhone(phone, phoneField.getText());
+				JOptionPane.showMessageDialog(null, "Kunde oplysninger opdateret");
+				tabbedPane.setSelectedIndex(0);
+				}else {
+					
+					
+				}
+				
+			}
+		});
 		btnNewButton.setBounds(36, 158, 143, 23);
 		Kunde.add(btnNewButton);
 		
 		JButton btnAnnuller_1 = new JButton("Annuller");
+		btnAnnuller_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String name = accountCtr.findCustomer(phone).getName();
+				String adress = accountCtr.findCustomer(phone).getAddress();
+				String zip =  accountCtr.findCustomer(phone).getZip();
+				String city =  accountCtr.findCustomer(phone).getCity();
+				nameField.setText(name);
+				StreetField.setText(adress);
+				ZipField.setText(zip);
+				cityField.setText(city);
+				phoneField.setText(phone);
+			}
+		});
 		btnAnnuller_1.setBounds(176, 158, 88, 23);
 		Kunde.add(btnAnnuller_1);
 		
@@ -154,9 +186,16 @@ public class CustomerMenu extends JPanel {
 		
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, Kunde, panel_1);
 		
+		JButton btnTilbageTilOversigt = new JButton("Tilbage til Oversigt");
+		btnTilbageTilOversigt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			tabbedPane.setSelectedIndex(0);
+			}
+		});
+		btnTilbageTilOversigt.setBounds(14, 400, 143, 23);
+		Kunde.add(btnTilbageTilOversigt);
+		
 		table_1 = new JTable();
-		panel_1.add(table_1, BorderLayout.CENTER);
-		//table_1.setModel(orderTable(accountCtr.getOrder("123")));
 		JScrollPane sp = new JScrollPane();
 		sp.setBounds(88, 251, 452, 155);
 		sp.setViewportView(table_1);
@@ -235,13 +274,15 @@ public class CustomerMenu extends JPanel {
 								});
 						btnKundeOplysninger.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent arg0) {
+								
 								int row = jt.getSelectedRow();
+								if(row>-1) {
 								String getPhone = tableModel.removeRow(row);
 								String name = accountCtr.findCustomer(getPhone).getName();
 								String adress = accountCtr.findCustomer(getPhone).getAddress();
 								String zip =  accountCtr.findCustomer(getPhone).getZip();
 								String city =  accountCtr.findCustomer(getPhone).getCity();
-								String phone = getPhone;
+								phone = getPhone;
 								table_1.setModel(orderTable(accountCtr.getOrders(phone)));
 								
 								
@@ -251,7 +292,10 @@ public class CustomerMenu extends JPanel {
 								cityField.setText(city);
 								phoneField.setText(phone);
 								tabbedPane.setSelectedIndex(2);
-								
+								}
+								else {
+									JOptionPane.showMessageDialog(null, "Du skal vælge en kunde");
+								}
 								
 								
 								

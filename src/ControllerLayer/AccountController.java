@@ -95,4 +95,19 @@ public class AccountController {
 	public Map<Integer,Order> getOrders(String phone){
 		return accountContainer.getOrders(phone);
 	}
+	public void setName(String phone, String name) {
+		accountContainer.setName(phone, name);
+	}
+	public void setAdress(String phone, String adress) {
+		accountContainer.setAdress(phone, adress);
+	}
+	public void setZip(String phone, String zip) {
+		accountContainer.setZip(phone, zip);
+	}
+	public void setCity(String phone, String city) {
+		accountContainer.setCity(phone, city);
+	}
+	public void setPhone(String phone, String newPhone) {
+		accountContainer.setPhone(phone, newPhone);
+	}
 }

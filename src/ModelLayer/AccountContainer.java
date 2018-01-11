@@ -123,5 +123,25 @@ public class AccountContainer {
     public Map<Integer,Order> getOrders(String phone){
     	return accountMap.get(phone).getorders();
     }
+    
+    public void setName(String phone, String name) {
+    	findAccount(phone).setName(name);
+    }
+    
+    public void setAdress(String phone, String adress) {
+    	findAccount(phone).setAddress(adress);
+    }
+    public void setZip(String phone, String zip) {
+    	
+    	findAccount(phone).setZip(zip);
+    }
+    
+    public void setCity(String phone, String city) {
+    	
+    	findAccount(phone).setCity(city);
+    }
+    public void setPhone(String phone, String newPhone) {
+    	findAccount(phone).setPhone(newPhone);
+    }
 }
 
