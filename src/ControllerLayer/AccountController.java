@@ -1,4 +1,5 @@
 package ControllerLayer;
+
 import ModelLayer.AccountContainer;
 
 import java.util.Map;
@@ -7,86 +8,88 @@ import ModelLayer.Account;
 import ModelLayer.Customer;
 import ModelLayer.Order;
 import ModelLayer.Loan;
+
 /**
  * Lav en beskrivelse af klassen CustomerController her.
  * 
  * @author (dit navn her)
  * @version (versions nummer eller dato her)
  */
-public class AccountController
-{
-    private AccountContainer accountContainer;
+public class AccountController {
+	private AccountContainer accountContainer;
 
-    /**
-     * KonstruktÃ¸r for objekter af klassen CustomerController
-     */
-    public AccountController(){
-        accountContainer = AccountContainer.getInstance();
-    }
+	/**
+	 * Konstruktør for objekter af klassen CustomerController
+	 */
+	public AccountController() {
+		accountContainer = AccountContainer.getInstance();
+	}
 
-    public String updatePhone(String phone, String newPhone){
-        return accountContainer.updatePhone(phone, newPhone);
-    }
+	public String updatePhone(String phone, String newPhone) {
+		return accountContainer.updatePhone(phone, newPhone);
+	}
 
-    public String updateAddress(String phone, String newAddress){
-        return accountContainer.updateaddress(phone, newAddress);
-    }
+	public String updateAddress(String phone, String newAddress) {
+		return accountContainer.updateaddress(phone, newAddress);
+	}
 
-    public String createAccount(String name, String address, 
-    String zip, String city, String phone, String type){
-        Account customer = new Customer(name,address,zip,city,phone,type);
-        accountContainer.addAccount(customer);
-        return "Succes: konto oprettet";
-    }
+	public String createAccount(String name, String address, String zip, String city, String phone, String type) {
+		Account customer = new Customer(name, address, zip, city, phone, type);
+		accountContainer.addAccount(customer);
+		return "Succes: konto oprettet";
+	}
 
-    public Account findCustomer(String phone){
-        return accountContainer.findAccount(phone);
-    }
-    
-    public Map<String, Account> getCustomers(){
-    	return accountContainer.getAccounts();
-    }
-    
-    public void removeAccount(String phone) {
-    	accountContainer.removeAccount(phone);
-    }
+	public Account findCustomer(String phone) {
+		return accountContainer.findAccount(phone);
+	}
 
-    public void addOrder(String phone, Order order){
-        accountContainer.addOrder(phone,order);
+	public Map<String, Account> getCustomers() {
+		return accountContainer.getAccounts();
+	}
+	
+	public Map<String, Account> getAccountsWithLoan() {
+		return accountContainer.getAccountsWithLoan();
+	}
 
-    }
+	public void removeAccount(String phone) {
+		accountContainer.removeAccount(phone);
+	}
 
-    public void addLoan(String phone, Loan loan){
-        accountContainer.addLoan(phone, loan);
-    }
+	public void addOrder(String phone, Order order) {
+		accountContainer.addOrder(phone, order);
 
-    public double getReceivable(String phone){
-        return accountContainer.customerReceivable(phone);    
-    }
-    
-    /**
-     * opretter dummy accounts
-     */
-    public void createdummydata(){
-        Integer i = 1;
-        int index = 0;
-        String k = "1";
+	}
 
-        while(index<10){
+	public void addLoan(String phone, Loan loan) {
+		accountContainer.addLoan(phone, loan);
+	}
 
-            createAccount("Lars", "address", 
-                "zip", "city", k, "type");  
-            i++;
-            k = i.toString();
-            index++;
-        }    
-    }
+	public double getReceivable(String phone) {
+		return accountContainer.customerReceivable(phone);
+	}
 
-    public void setDiscount(String phone, double s){
-        accountContainer.setDiscount(phone, s);    
-    }
+	/**
+	 * opretter dummy accounts
+	 */
+	public void createdummydata() {
+		Integer i = 1;
+		int index = 0;
+		String k = "1";
 
-    public double getDiscount(String phone){
-        return accountContainer.getDiscount(phone);    
-    }
+		while (index < 10) {
+
+			createAccount("Lars", "address", "zip", "city", k, "type");
+			i++;
+			k = i.toString();
+			index++;
+		}
+	}
+
+	public void setDiscount(String phone, double s) {
+		accountContainer.setDiscount(phone, s);
+	}
+
+	public double getDiscount(String phone) {
+		return accountContainer.getDiscount(phone);
+	}
 }

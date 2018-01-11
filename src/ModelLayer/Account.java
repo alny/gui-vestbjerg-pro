@@ -51,9 +51,6 @@ public abstract class Account
     public void setPhone(String newPhone){
         phone = newPhone;
     }
-    
- 
-    
 
     //get methods
     public String getName(){
@@ -91,10 +88,19 @@ public abstract class Account
     public HashMap getorders(){
         return order;    
     }
+    
 
-    /**
-     * tjekker tilgodehavende, pÃ¥ en kunde der bliver fundet i containeren,
-     * ved at trÃ¦kke kundens keyset ud og kÃ¸re igennem
+  public HashMap<Integer, Loan> getLoans() {
+		return loans;
+	}
+
+	public void setLoans(HashMap<Integer, Loan> loans) {
+		this.loans = loans;
+	}
+
+	/**
+     * tjekker tilgodehavende, på en kunde der bliver fundet i containeren,
+     * ved at trække kundens keyset ud og køre igennem
      * en kundes hashmap og finder ud af hvor meget de skylder. 
      */
     public double customerReceivable(){

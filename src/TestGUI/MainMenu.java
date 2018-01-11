@@ -52,13 +52,24 @@ public class MainMenu extends JFrame {
 		orderCtr = new OrderController();
 		productCtr = new ProductController();
 		loanCtr = new LoanController();
+		
+		accountCtr.createAccount("Erik", "Erikvej 32", "9000", "Aalborg", "123", "type");
+		accountCtr.createAccount("Findus", "Yolovej 32", "2100", "København", "321", "type");
+		accountCtr.createAccount("Finn", "Yolovej 32", "6000", "Århus", "333", "type");
+		productCtr.createUniqueProduct(555, "Traktor", "Fed Traktor", 500.00, 1, 2, 4);
+		productCtr.createItem(555, "Traktor", "Fed Traktor", 500.00, true);
+		productCtr.createItem(555, "Traktor", "Fed Traktor", 500.00, true);
+		productCtr.createItem(555, "Traktor", "Fed Traktor", 500.00, true);
+		loanCtr.createLoan(5, "123");
+		loanCtr.createLoan(2, "321");
+		loanCtr.addItem(1001, 555, 1001);
 
 		CardLayout cl = new CardLayout();
 		parentPanel = new JPanel();
 		menuPanel = new JPanel();
 		customerMenu = new CustomerMenu(parentPanel, cl, accountCtr);
 		productMenu = new ProductMenu(parentPanel, cl, productCtr);
-		loanMenu = new LoanMenu(parentPanel,cl,loanCtr);
+		loanMenu = new LoanMenu(parentPanel,cl,loanCtr, accountCtr, productCtr);
 		orderMenu = new OrderMenu(parentPanel, cl, orderCtr, accountCtr, productCtr);
 		
 

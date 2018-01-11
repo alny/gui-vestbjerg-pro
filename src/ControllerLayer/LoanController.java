@@ -1,6 +1,8 @@
 package ControllerLayer;
-import ModelLayer.LoanContainer;
+import java.util.Date;
+
 import ModelLayer.Loan;
+import ModelLayer.LoanContainer;
 
 public class LoanController{
     private LoanContainer loanCon;
@@ -43,6 +45,10 @@ public class LoanController{
     
     public double getPrice(int id){
         return loanCon.getPrice(id);
+    }
+    
+    public Date getDate(int id){
+        return loanCon.getDate(id);
     }
 
 }

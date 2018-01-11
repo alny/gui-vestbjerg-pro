@@ -1,5 +1,6 @@
 package ModelLayer;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 public class AccountContainer {
 
@@ -28,19 +29,38 @@ public class AccountContainer {
    	 return accountMap;
     }
     
+    public Map<String, Account> getAccountsWithLoan(){
+    	System.out.println("Test");
+    	Map<String, Account> accountWithLoanMap = new HashMap<String, Account>();
+    	System.out.println(accountMap);
+    	for (Map.Entry<String, Account> entry : accountMap.entrySet()) {
+    		System.out.println(entry.getValue().getLoans().isEmpty());
+    		System.out.println("Test");
+    		if(!entry.getValue().getLoans().isEmpty()) {
+    			
+    			accountWithLoanMap.put(entry.getKey(), entry.getValue());
+    			System.out.println(accountWithLoanMap);
+    			System.out.println("Test");
+    		}
+    	}
+      	 return accountWithLoanMap;
+      	 
+       }
+       
+    
     public void removeAccount(String phone) {
     	accountMap.remove(phone);
     }
 
     /**
-     * tilfÃ¸jer en konto til accounts hashmap 
+     * tilføjer en konto til accounts hashmap 
      * @param Account account
      */ public void addAccount(Account account){
         accountMap.put(account.getPhone(), account);
     }
 
     /**
-     * henter en account pÃ¥ phone og returnerer den
+     * henter en account på phone og returnerer den
      * @param String phone
      * @return account 
      */
@@ -54,10 +74,10 @@ public class AccountContainer {
 
     /**
      * Vigitig funktion - Vi bruger den som key til at store vores values i HashMappet
-     * henter en account pÃ¥ phone
-     * fjerne eksisterende phone og sÃ¦tter newPhone
+     * henter en account på phone
+     * fjerne eksisterende phone og sætter newPhone
      * @param String newPhone bliver til phone
-     * @return String bekrÃ¦ftelse af opdatering
+     * @return String bekræftelse af opdatering
      */
     public String updatePhone(String phone, String newPhone)  {
         Account a = findAccount(phone);
@@ -73,7 +93,7 @@ public class AccountContainer {
     }
     
     /**
-     * tilfÃ¸jer en order til en account som hentes pÃ¥ phone 
+     * tilføjer en order til en account som hentes på phone 
      * @param String phone og Order order
      */
     public void addOrder(String phone,Order order){
@@ -81,7 +101,7 @@ public class AccountContainer {
     }
 
     /**
-     * tilfÃ¸jer et lÃ¥n til en account som hentes pÃ¥ phone 
+     * tilføjer et lån til en account som hentes på phone 
      * @param Loan loan og String phone 
      */
     public void addLoan(String phone, Loan loan){

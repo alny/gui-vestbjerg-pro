@@ -1,332 +1,426 @@
 package TestGUI;
 
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-
-import javax.swing.JTabbedPane;
 import java.awt.FlowLayout;
-import javax.swing.JTable;
-
-import ControllerLayer.LoanController;
-import ControllerLayer.ProductController;
-
-import javax.swing.JScrollPane;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
+import ControllerLayer.AccountController;
+import ControllerLayer.LoanController;
+import ControllerLayer.ProductController;
+import ModelLayer.Account;
+import ModelLayer.Product;
 
 public class LoanMenu extends JPanel {
-	private JTable table;
-	private JPanel parentPanel;
+
 	private CardLayout parent;
-	private LoanController lCtr;
-	private JTextField loanPeriodeField;
-	private JTextField custumerPhoneField;
+	private JPanel parentPanel;
+	private LoanController loanCtr;
+	private AccountController accountCtr;
+	private ProductController productCtr;
+	private JTabbedPane tabbedPane;
+	private JTable jt;
 	private JTextField textField;
 	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField textField_4;
+	private JTextField textField_5;
+	private JTextField textField_6;
+	private CustomerTableModel tableModel;
+	private boolean status = false;
+	private JDialog dialog;
 	private int id;
-	private JTextField loanid;
-	private JTextField barcodeRLoan;
-	private JTextField serialRno;
+	private String phone;
+	private JLabel label;
+	private JLabel label_2;
+	private JLabel label_3;
+	private JLabel label_4;
+	private JLabel label_5;
+	private JLabel label_6;
+	private int barcode;
+	private double total;
 
-	/**
-	 * Create the panel.
-	 */
-	public LoanMenu(JPanel mainPanel, CardLayout cardLayout, LoanController L) {
+	public LoanMenu(JPanel mainPanel, CardLayout cardLayout, LoanController lCtr, AccountController aCtr, ProductController pCtr) {
 		parentPanel = mainPanel;
 		parent = cardLayout;
-		lCtr = L;
-		setLayout(null);
+		loanCtr = lCtr;
+		accountCtr = aCtr;
+		productCtr = pCtr;
+		init();
+	}
+
+	private void init() {
+		setBounds(100, 100, 750, 500);
+		setLayout(new BorderLayout(0, 0));
+
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		add(tabbedPane, BorderLayout.CENTER);
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(0, 0, 730, 460);
-		add(tabbedPane);
-		
-		JPanel panel = new JPanel();
-		tabbedPane.addTab("Forside", null, panel, null);
-		panel.setLayout(null);
-		
-		JButton allLoanButton = new JButton("Se alle lån");
-		allLoanButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		tabbedPane.addTab("Lån Menu", null, loanMainMenu(), null);
+		tabbedPane.addTab("Liste over Lån", null, loanListPanel(), null);
+		tabbedPane.addTab("Opret Lån", null, createLoanPanel(), null);
+		tabbedPane.setEnabledAt(2, false);
+	}
+
+	private JPanel loanMainMenu() {
+
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(null);
+
+		JButton btnSalgMKunde = new JButton("Se alle L\u00E5n");
+		btnSalgMKunde.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				refresh();
+				tabbedPane.setEnabledAt(2, true);
 				tabbedPane.setSelectedIndex(1);
 			}
 		});
-		allLoanButton.setBounds(29, 84, 131, 59);
-		panel.add(allLoanButton);
-		
-		JButton createLoanButton = new JButton("Opret L\u00E5n");
-		createLoanButton.addActionListener(new ActionListener() {
+		btnSalgMKunde.setBounds(142, 193, 144, 64);
+		mainPanel.add(btnSalgMKunde);
+
+		JButton btnSalgUKunde = new JButton("Opret L\u00E5n");
+		btnSalgUKunde.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				tabbedPane.setSelectedIndex(2);
+				customerDialog();				
 			}
 		});
-		createLoanButton.setBounds(170, 84, 131, 59);
-		panel.add(createLoanButton);
-		
-		JButton returnLoan = new JButton("Returner L\u00E5n");
-		returnLoan.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				tabbedPane.setSelectedIndex(3);
-			}
-		});
-		returnLoan.setBounds(311, 84, 131, 59);
-		panel.add(returnLoan);
-		
-		JButton returntomain = new JButton("Tilbage");
-		returntomain.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnSalgUKunde.setBounds(299, 193, 143, 64);
+		mainPanel.add(btnSalgUKunde);
+
+		JButton btnTilbage = new JButton("Tilbage");
+		btnTilbage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
 				parent.show(parentPanel, "1");
-				
 			}
 		});
-		returntomain.setBounds(29, 242, 89, 23);
-		panel.add(returntomain);
+		btnTilbage.setBounds(24, 367, 97, 25);
+		mainPanel.add(btnTilbage);
 		
-		JButton button_1 = new JButton("Tilf\u00F8j produkt til l\u00E5n");
-		button_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				tabbedPane.setSelectedIndex(4);
-			}
-		});
-		button_1.setBounds(170, 154, 131, 59);
-		panel.add(button_1);
-		
-		JPanel allLoan = new JPanel();
-		tabbedPane.addTab("Liste over lån", null, allLoan, null);
-		allLoan.setLayout(new BorderLayout(0, 0));
-		
+		JButton button = new JButton("Returner L\u00E5n");
+		button.setBounds(454, 192, 143, 64);
+		mainPanel.add(button);
+
+		return mainPanel;
+	}
+	
+	private JPanel createLoanPanel() {
+		JPanel loanPanel = new JPanel();
+		loanPanel.setLayout(new BorderLayout(0, 0));
+
 		JPanel panel_1 = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) panel_1.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
-		allLoan.add(panel_1, BorderLayout.SOUTH);
-		
-		JButton btnNewButton_2 = new JButton("Opret L\u00E5n");
-		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				tabbedPane.setSelectedIndex(2);
-			}
-		});
-		panel_1.add(btnNewButton_2);
-		
-		JButton btnNewButton_1 = new JButton("Returner L\u00E5n");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			tabbedPane.setSelectedIndex(3);
-			}
-		});
-		panel_1.add(btnNewButton_1);
-		
-		JButton btnNewButton = new JButton("Tilbage");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			tabbedPane.setSelectedIndex(0);
-			}
-		});
-		panel_1.add(btnNewButton);
-		
-		table = new JTable();
-		allLoan.add(table, BorderLayout.CENTER);
-		
-		JPanel panel_2 = new JPanel();
-		tabbedPane.addTab("Opret Lån", null, panel_2, null);
-		panel_2.setLayout(null);
-		
-		JLabel lblAngivLnePeriode = new JLabel("Angiv l\u00E5ne periode i dage");
-		lblAngivLnePeriode.setBounds(38, 32, 144, 14);
-		panel_2.add(lblAngivLnePeriode);
-		
-		JLabel label = new JLabel("Kundens Telefon nr. ");
-		label.setBounds(38, 57, 144, 14);
-		panel_2.add(label);
-		
-		loanPeriodeField = new JTextField();
-		loanPeriodeField.setBounds(179, 29, 144, 20);
-		panel_2.add(loanPeriodeField);
-		loanPeriodeField.setColumns(10);
-		
-		custumerPhoneField = new JTextField();
-		custumerPhoneField.setColumns(10);
-		custumerPhoneField.setBounds(179, 57, 144, 20);
-		panel_2.add(custumerPhoneField);
-		
-		JButton btnOpretLn = new JButton("Opret L\u00E5n");
-		btnOpretLn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			int day =Integer.parseInt(loanPeriodeField.getText());
-			String phone =custumerPhoneField.getText();
-			if (JOptionPane.showConfirmDialog(null, "Bekræft Oprettelse?", "Advarsel",
-					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-			id = lCtr.createLoan(day, phone);
-			clearCreateLoan();
-			JOptionPane.showMessageDialog(null, "Lån Oprettet låne ID:" + id );
-			textField.setText(Integer.toString(id));
-			tabbedPane.setSelectedIndex(4);
-			}else {
-				
-			}
-			
-			}
-		});
-		btnOpretLn.setBounds(38, 109, 89, 23);
-		panel_2.add(btnOpretLn);
-		
-		JButton button = new JButton("Annuller");
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				clearCreateLoan();
-				tabbedPane.setSelectedIndex(0);
-			}
-		});
-		button.setBounds(137, 109, 89, 23);
-		panel_2.add(button);
-		
-		JPanel panel_3 = new JPanel();
-		tabbedPane.addTab("Returner Lån", null, panel_3, null);
-		panel_3.setLayout(null);
-		
-		JLabel lblLneId = new JLabel("L\u00E5ne ID");
-		lblLneId.setBounds(64, 39, 76, 14);
-		panel_3.add(lblLneId);
-		
-		JLabel label_1 = new JLabel("Stregkode");
-		label_1.setBounds(64, 64, 76, 14);
-		panel_3.add(label_1);
-		
-		JLabel label_2 = new JLabel("Serie nr. ");
-		label_2.setBounds(64, 89, 76, 14);
-		panel_3.add(label_2);
-		
-		loanid = new JTextField();
-		loanid.setBounds(150, 36, 144, 20);
-		panel_3.add(loanid);
-		loanid.setColumns(10);
-		
-		barcodeRLoan = new JTextField();
-		barcodeRLoan.setColumns(10);
-		barcodeRLoan.setBounds(150, 61, 144, 20);
-		panel_3.add(barcodeRLoan);
-		
-		serialRno = new JTextField();
-		serialRno.setColumns(10);
-		serialRno.setBounds(150, 86, 144, 20);
-		panel_3.add(serialRno);
-		
-		JButton btnReturnerLn = new JButton("Returner L\u00E5n");
-		btnReturnerLn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (JOptionPane.showConfirmDialog(null, "Bekræft Returnering?", "Advarsel",
-						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-				int rid = Integer.parseInt(loanid.getText());
-				int bar = Integer.parseInt(barcodeRLoan.getText());
-				int serial = Integer.parseInt(serialRno.getText());
-				lCtr.returnItem(rid, bar, serial);
-				JOptionPane.showMessageDialog(null, "Produkt returneret");
-				clearReturn();
-				
-			}else {
-			
-			}
-				
-				}});
-		btnReturnerLn.setBounds(64, 117, 107, 23);
-		panel_3.add(btnReturnerLn);
-		
-		JButton button_3 = new JButton("Annuller");
-		button_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				clearReturn();
-				tabbedPane.setSelectedIndex(0);
-				
-			}
-		});
-		button_3.setBounds(181, 117, 107, 23);
-		panel_3.add(button_3);
-		
-		JPanel panel_4 = new JPanel();
-		tabbedPane.addTab("Tilføj produkter til et lån", null, panel_4, null);
-		panel_4.setLayout(null);
-		
-		JLabel lblNewLabel = new JLabel("L\u00E5ne ID");
-		lblNewLabel.setBounds(57, 57, 98, 14);
-		panel_4.add(lblNewLabel);
-		
-		JLabel lblNewLabel_1 = new JLabel("Stregkode");
-		lblNewLabel_1.setBounds(57, 82, 98, 14);
-		panel_4.add(lblNewLabel_1);
-		
-		JLabel lblNewLabel_2 = new JLabel("Serialnr.");
-		lblNewLabel_2.setBounds(57, 107, 98, 14);
-		panel_4.add(lblNewLabel_2);
-		
-		textField = new JTextField();
-		textField.setBounds(146, 54, 170, 20);
-		panel_4.add(textField);
-		textField.setColumns(10);
-		
-		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(146, 79, 170, 20);
-		panel_4.add(textField_1);
-		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(146, 107, 170, 20);
-		panel_4.add(textField_2);
-		
-		JButton btnTilfjProdukt = new JButton("Tilf\u00F8j Produkt");
-		btnTilfjProdukt.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			
-			if (JOptionPane.showConfirmDialog(null, "Bekræft Oprettelse?", "Advarsel",
-			JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {	
-				int lid = Integer.parseInt(textField.getText());
-				int bar = Integer.parseInt(textField_1.getText());
-				int serial = Integer.parseInt(textField_2.getText());
-				lCtr.addItem(lid, bar, serial);
-				JOptionPane.showMessageDialog(null, "Produkt tilføjet");
-				clearAddItem();
-				tabbedPane.setSelectedIndex(1);
-			}else {
-				
-			
-			}
-			}
-		});
-		btnTilfjProdukt.setBounds(57, 152, 110, 23);
-		panel_4.add(btnTilfjProdukt);
-		
-		JButton button_2 = new JButton("Annuller");
-		button_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				tabbedPane.setSelectedIndex(0);
-				clearAddItem();
-			}
-		});
-		button_2.setBounds(177, 152, 110, 23);
-		panel_4.add(button_2);
+		loanPanel.add(panel_1, BorderLayout.SOUTH);
 
-	}
-	public void clearCreateLoan() {
-	custumerPhoneField.setText("");
-	loanPeriodeField.setText("");
-	}
-	public void clearAddItem() {
-	textField.setText("");
-	textField_1.setText("");
-	textField_2.setText("");
-	}
-	public void clearReturn() {
-	loanid.setText("");
-	barcodeRLoan.setText("");
-	serialRno.setText("");
+		JButton btnAfslutSalg = new JButton("Afslut Lån");
+		btnAfslutSalg.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tabbedPane.setEnabledAt(2, false);
+				clearOrdreData();
+			}
+		});
+		panel_1.add(btnAfslutSalg);
+
+		JButton btnAnnuller = new JButton("Annuller");
+		btnAnnuller.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				tabbedPane.setEnabledAt(2, false);
+				tabbedPane.setSelectedIndex(0);
+			}
+		});
+		panel_1.add(btnAnnuller);
+		
+		JLabel lblNewLabel_4 = new JLabel("Total Pris:");
+		panel_1.add(lblNewLabel_4);
+		
+		label_6 = new JLabel("");
+		panel_1.add(label_6);
+
+		JPanel panel = new JPanel();
+		JPanel panel_2 = new JPanel();
+		loanPanel.add(panel, BorderLayout.CENTER);
+
+		jt = new JTable();
+
+		jt.setModel(itemTable());
+		JScrollPane sp = new JScrollPane();
+		sp.setBounds(88, 251, 452, 155);
+		sp.setViewportView(jt);
+		panel.add(sp);
+
+		JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panel, panel_2);
+		panel_2.setLayout(null);
+				
+					JLabel lblTelefon = new JLabel("Telefon");
+					lblTelefon.setBounds(12, 275, 56, 16);
+					panel_2.add(lblTelefon);
+
+					JLabel lblAdresse = new JLabel("Adresse");
+					lblAdresse.setBounds(12, 161, 56, 16);
+					panel_2.add(lblAdresse);
+
+					JLabel lblNewLabel = new JLabel("Navn");
+					lblNewLabel.setBounds(12, 123, 56, 16);
+					panel_2.add(lblNewLabel);
+
+					JLabel lblNewLabel_2 = new JLabel("By");
+					lblNewLabel_2.setBounds(12, 200, 56, 16);
+					panel_2.add(lblNewLabel_2);
+
+					JLabel lblNewLabel_3 = new JLabel("Post Nr");
+					lblNewLabel_3.setBounds(12, 236, 56, 16);
+					panel_2.add(lblNewLabel_3);
+
+					label = new JLabel("");
+					label.setBounds(79, 123, 140, 16);
+					panel_2.add(label);
+
+					label_2 = new JLabel("");
+					label_2.setBounds(78, 162, 141, 14);
+					panel_2.add(label_2);
+
+					label_3 = new JLabel("");
+					label_3.setBounds(78, 201, 141, 14);
+					panel_2.add(label_3);
+
+					label_4 = new JLabel("");
+					label_4.setBounds(78, 236, 131, 14);
+					panel_2.add(label_4);
+
+					label_5 = new JLabel("");
+					label_5.setBounds(78, 276, 141, 14);
+					panel_2.add(label_5);
+		
+		JButton btnNewButton = new JButton("Tilf\u00F8j Produkt");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				createItem();
+				textField_4.setText("");
+			}
+		});
+		btnNewButton.setBounds(66, 62, 153, 25);
+		panel_2.add(btnNewButton);
+
+		JLabel lblNewLabel_1 = new JLabel("Barkode");
+		lblNewLabel_1.setBounds(12, 30, 56, 16);
+		panel_2.add(lblNewLabel_1);
+
+		textField_4 = new JTextField();
+		textField_4.setBounds(66, 27, 153, 30);
+		panel_2.add(textField_4);
+		textField_4.setColumns(10);
+		
+
+		loanPanel.add(split);
+
+		return loanPanel;
 	}
 	
+	private JPanel loanListPanel() {
+		JPanel loanPanel = new JPanel();
+		loanPanel.setLayout(new BorderLayout(0, 0));
+
+		JPanel panel_1 = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) panel_1.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		loanPanel.add(panel_1, BorderLayout.SOUTH);
+
+		JButton btnAfslutSalg = new JButton("Se Kundelån");
+		btnAfslutSalg.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tabbedPane.setEnabledAt(1, false);
+				clearOrdreData();
+			}
+		});
+		panel_1.add(btnAfslutSalg);
+
+		JButton btnAnnuller = new JButton("Annuller");
+		btnAnnuller.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				tabbedPane.setEnabledAt(1, false);
+				tabbedPane.setSelectedIndex(0);
+			}
+		});
+		panel_1.add(btnAnnuller);
+		
+		
+		tableModel = new CustomerTableModel();
+		tableModel.setData(accountCtr.getAccountsWithLoan());
+		jt = new JTable();
+		refresh();
+
+		jt.setModel(tableModel);
+		JScrollPane sp = new JScrollPane();
+		sp.setBounds(88, 251, 452, 155);
+		sp.setViewportView(jt);
+		loanPanel.add(sp);
+
+		return loanPanel;
 	}
+
+	public void customerDialog() {
+		dialog = new JDialog();
+
+		dialog.setBounds(100, 100, 580, 400);
+		dialog.setVisible(true);
+
+		JPanel panel_1 = new JPanel();
+		dialog.getContentPane().add(panel_1, BorderLayout.CENTER);
+		panel_1.setLayout(null);
+
+		JLabel lblTelefon = new JLabel("Angiv låne periode i dage");
+		lblTelefon.setBounds(129, 59, 106, 16);
+		panel_1.add(lblTelefon);
+
+		JLabel lblAddresse = new JLabel("Telefon");
+		lblAddresse.setBounds(129, 108, 106, 16);
+		panel_1.add(lblAddresse);
+
+		textField = new JTextField();
+		textField.setBounds(253, 56, 210, 32);
+		panel_1.add(textField);
+		textField.setColumns(10);
+
+		textField_1 = new JTextField();
+		textField_1.setBounds(253, 105, 210, 32);
+		panel_1.add(textField_1);
+		textField_1.setColumns(10);
+
+		JLabel label = new JLabel("");
+		label.setBounds(213, 193, 210, 16);
+		panel_1.add(label);
+
+		JButton btnOpretOrdre = new JButton("Opret Lån");
+		btnOpretOrdre.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				createLoan();
+//				setCustomerInfo();
+			}
+		});
+		btnOpretOrdre.setBounds(12, 315, 157, 25);
+		panel_1.add(btnOpretOrdre);
+	}
+
+	public void createLoan() {
+		int day = Integer.parseInt(textField.getText());
+		String phone = textField_1.getText();
+		System.out.println(day);
+		if (JOptionPane.showConfirmDialog(null, "Bekråft Oprettelse?", "Advarsel",
+				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+		id = loanCtr.createLoan(day, phone);
+		textField.setText(Integer.toString(id));
+		tabbedPane.setSelectedIndex(1);
+		dialog.setVisible(false);
+		dialog.dispose();
+		}
+	}
+
+	public void setCustomerInfo() {
+		Account accountObj = accountCtr.findCustomer(phone);
+		label.setText(accountObj.getName());
+		label_2.setText(accountObj.getAddress());
+		label_3.setText(accountObj.getCity());
+		label_4.setText(accountObj.getZip());
+		label_5.setText(accountObj.getPhone());
+	}
+
+	public void createItem() {
+		barcode = Integer.parseInt(textField_4.getText());
+		if (productCtr.isUnique(barcode) == true) {
+			uniqueProductDialog();
+		} else {
+			JOptionPane.showMessageDialog(null, "Du er en skovl, dette er ikke unikt");
+		}
+	}
+
+	public void uniqueProductDialog() {
+		JDialog dialog = new JDialog();
+
+		dialog.setBounds(100, 100, 280, 300);
+		dialog.setVisible(true);
+
+		JPanel panel_1 = new JPanel();
+		dialog.getContentPane().add(panel_1, BorderLayout.CENTER);
+		panel_1.setLayout(null);
+
+		JLabel lblTelefon = new JLabel("Angiv Serie Nr");
+		lblTelefon.setBounds(13, 59, 156, 16);
+		panel_1.add(lblTelefon);
+
+		textField_6 = new JTextField();
+		textField_6.setBounds(13, 105, 210, 22);
+		panel_1.add(textField_6);
+		textField_6.setColumns(10);
+
+		JButton btnOpretOrdre = new JButton("Tilføj");
+		btnOpretOrdre.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int serial = Integer.parseInt(textField_6.getText());
+				System.out.println(serial);
+				System.out.println(id);
+				loanCtr.addItem(id, barcode, serial);
+				Product productObj = productCtr.findSpecificProduct(barcode);
+
+				int tBarcode = productObj.getBarcode();
+				String name = productObj.getName();
+				String description = productObj.getDescription();
+				double price = productObj.getPrice();
+
+				DefaultTableModel model = (DefaultTableModel) jt.getModel();
+				model.addRow(new Object[] { tBarcode, name, description, price, 1 });
+				dialog.setVisible(false);
+				dialog.dispose();
+			}
+		});
+		btnOpretOrdre.setBounds(12, 215, 157, 25);
+		panel_1.add(btnOpretOrdre);
+	}
+	
+	public void refresh() {
+		tableModel.fireTableDataChanged();
+		System.out.println("REFRESH");
+	}
+	
+	public void clearOrdreData() {
+		label.setText("");
+		label_2.setText("");
+		label_3.setText("");
+		label_4.setText("");
+		label_5.setText("");
+		label_6.setText("");
+		textField_4.setText("");
+		total = 0;
+		DefaultTableModel model = (DefaultTableModel) jt.getModel();
+		model.getDataVector().removeAllElements();
+		model.fireTableDataChanged();
+		tabbedPane.setSelectedIndex(0);
+	}
+	
+	public void totalPrice(double p, int amount) {
+		int price = (int) p; 
+		int multiply = price * amount;
+		total += multiply;
+		label_6.setText(String.valueOf(total));		
+	}
+
+	public TableModel itemTable() {
+		DefaultTableModel model = new DefaultTableModel(
+				new Object[] { "Stregkode", "Navn", "Beskrivelse", "Pris", "Antal" }, 0);
+		return model;
+
+	}
+}
