@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -15,14 +16,22 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import ControllerLayer.AccountController;
 import ControllerLayer.OrderController;
 import ControllerLayer.ProductController;
+import ModelLayer.Account;
+import ModelLayer.Order;
 
 import javax.swing.JSplitPane;
 import javax.swing.JSeparator;
 import javax.swing.JList;
+import javax.swing.border.LineBorder;
+import java.awt.Rectangle;
+import java.awt.ComponentOrientation;
+import javax.swing.JScrollBar;
 
 public class CustomerMenu extends JPanel {
 
@@ -47,7 +56,10 @@ public class CustomerMenu extends JPanel {
 	private JTextField phoneField;
 	private OrderController orderController;
 	private String phone;
+	private JTable ordertable;
 	private JTable table;
+	private JPanel panel_1;
+	private JTable table_1;
 
 	public CustomerMenu(JPanel mainPanel, CardLayout cardLayout, AccountController aCtr, OrderController oCtr) {
 		parentPanel = mainPanel;
@@ -133,24 +145,30 @@ public class CustomerMenu extends JPanel {
 		Kunde.add(phoneField);
 		
 		JPanel panel = new JPanel();
-		tabbedPane.addTab("New tab", null, panel, null);
+		tabbedPane.addTab("Kunde Oplysninger", null, panel, null);
 		panel.setLayout(new BorderLayout(0, 0));
-		JPanel panel_1 = new JPanel();
+		panel_1 = new JPanel();
+		panel_1.setLayout(new BorderLayout(0, 0));
 		
 		
 		
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, Kunde, panel_1);
 		
-		table = new JTable();
-		panel_1.add(table);
-		table.setBounds(459, 299, 100, 100);
-		JScrollPane sp1 = new JScrollPane();
-		sp1.setBounds(88, 251, 452, 155);
-		sp1.setViewportView(table);
-		panel_1.add(sp1);
+		table_1 = new JTable();
+		panel_1.add(table_1, BorderLayout.CENTER);
+		//table_1.setModel(orderTable(accountCtr.getOrder("123")));
+		JScrollPane sp = new JScrollPane();
+		sp.setBounds(88, 251, 452, 155);
+		sp.setViewportView(table_1);
+		panel_1.add(sp);
+		
+	
+		
+	
+		
 		
 		panel.add(splitPane, BorderLayout.CENTER);
-		splitPane.setDividerLocation(400);
+		splitPane.setDividerLocation(300);
 		
 		
 		JPanel ListPanel = new JPanel();
@@ -159,6 +177,11 @@ public class CustomerMenu extends JPanel {
 		
 		
 		
+	}
+
+	private JScrollPane JScrollPane() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	public JPanel showCustomers() {
@@ -219,10 +242,8 @@ public class CustomerMenu extends JPanel {
 								String zip =  accountCtr.findCustomer(getPhone).getZip();
 								String city =  accountCtr.findCustomer(getPhone).getCity();
 								String phone = getPhone;
-								//tableOrderModel = new CustomerOrderTableModel();
-								//tableOrderModel.setData(accountCtr.getOrder(phone));
+								table_1.setModel(orderTable(accountCtr.getOrder(phone)));
 								
-							
 								
 								nameField.setText(name);
 								StreetField.setText(adress);
@@ -351,5 +372,18 @@ public class CustomerMenu extends JPanel {
 	
 	public void refresh() {
 		tableModel.fireTableDataChanged();
+	}
+	
+	public TableModel orderTable(Map<Integer, Order> map) {
+
+		DefaultTableModel model = new DefaultTableModel(new Object[] { "Order ID", "Date", "Total Price","Betalt"},
+				0);
+		for (Map.Entry<Integer, Order> entry : map.entrySet()) {
+
+			model.addRow(new Object[] { entry.getValue().getId(), entry.getValue().getDate(),
+					entry.getValue().getTotalPrice(), entry.getValue().getbetalt(),});
+		}
+		return model;
+
 	}
 }
