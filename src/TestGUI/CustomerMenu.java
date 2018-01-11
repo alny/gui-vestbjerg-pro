@@ -17,6 +17,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import ControllerLayer.AccountController;
+import ControllerLayer.OrderController;
+import ControllerLayer.ProductController;
+
 import javax.swing.JSplitPane;
 import javax.swing.JSeparator;
 import javax.swing.JList;
@@ -34,19 +37,23 @@ public class CustomerMenu extends JPanel {
 	private JTextField textField_4;
 	private JTextField textField_5;
 	private CustomerTableModel tableModel;
+	private CustomerOrderTableModel tableOrderModel;
 	private JTable jt;
 	private JLabel label;
 	private JTextField nameField;
 	private JTextField StreetField;
-	private JTable table;
 	private JTextField ZipField;
 	private JTextField cityField;
 	private JTextField phoneField;
+	private OrderController orderController;
+	private String phone;
+	private JTable table;
 
-	public CustomerMenu(JPanel mainPanel, CardLayout cardLayout, AccountController aCtr) {
+	public CustomerMenu(JPanel mainPanel, CardLayout cardLayout, AccountController aCtr, OrderController oCtr) {
 		parentPanel = mainPanel;
 		parent = cardLayout;
 		accountCtr = aCtr;
+		orderController = oCtr;
 		init();
 	}
 
@@ -105,9 +112,9 @@ public class CustomerMenu extends JPanel {
 		lblOrdreOversigt.setBounds(462, 20, 143, 20);
 		Kunde.add(lblOrdreOversigt);
 		
-		table = new JTable();
-		table.setBounds(398, 355, 337, -302);
-		Kunde.add(table);
+		
+		
+		
 		
 		
 		ZipField = new JTextField();
@@ -124,6 +131,34 @@ public class CustomerMenu extends JPanel {
 		phoneField.setColumns(10);
 		phoneField.setBounds(92, 124, 172, 23);
 		Kunde.add(phoneField);
+		
+		JPanel panel = new JPanel();
+		tabbedPane.addTab("New tab", null, panel, null);
+		panel.setLayout(new BorderLayout(0, 0));
+		JPanel panel_1 = new JPanel();
+		
+		
+		
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, Kunde, panel_1);
+		
+		table = new JTable();
+		panel_1.add(table);
+		table.setBounds(459, 299, 100, 100);
+		JScrollPane sp1 = new JScrollPane();
+		sp1.setBounds(88, 251, 452, 155);
+		sp1.setViewportView(table);
+		panel_1.add(sp1);
+		
+		panel.add(splitPane, BorderLayout.CENTER);
+		splitPane.setDividerLocation(400);
+		
+		
+		JPanel ListPanel = new JPanel();
+		ListPanel.setBounds(0, 0, 100, 200);
+		
+		
+		
+		
 	}
 
 	public JPanel showCustomers() {
@@ -184,6 +219,10 @@ public class CustomerMenu extends JPanel {
 								String zip =  accountCtr.findCustomer(getPhone).getZip();
 								String city =  accountCtr.findCustomer(getPhone).getCity();
 								String phone = getPhone;
+								//tableOrderModel = new CustomerOrderTableModel();
+								//tableOrderModel.setData(accountCtr.getOrder(phone));
+								
+							
 								
 								nameField.setText(name);
 								StreetField.setText(adress);

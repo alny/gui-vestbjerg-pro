@@ -67,7 +67,7 @@ public class MainMenu extends JFrame {
 		CardLayout cl = new CardLayout();
 		parentPanel = new JPanel();
 		menuPanel = new JPanel();
-		customerMenu = new CustomerMenu(parentPanel, cl, accountCtr);
+		customerMenu = new CustomerMenu(parentPanel, cl, accountCtr, orderCtr);
 		productMenu = new ProductMenu(parentPanel, cl, productCtr);
 		loanMenu = new LoanMenu(parentPanel,cl,loanCtr, accountCtr, productCtr);
 		orderMenu = new OrderMenu(parentPanel, cl, orderCtr, accountCtr, productCtr);

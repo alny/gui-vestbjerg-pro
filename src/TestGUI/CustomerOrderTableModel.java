@@ -4,14 +4,14 @@ import java.util.Map;
 
 import javax.swing.table.AbstractTableModel;
 
-import ModelLayer.Account;
+import ModelLayer.Order;
 
 public class CustomerOrderTableModel extends AbstractTableModel {
 
-	private Map<String, Account> db;
-	public final String columnNames[] = new String[] { "Navn", "Addresse", "Post Nr", "By", "Telefon" };
+	private Map<Integer, Order> db;
+	public final String columnNames[] = new String[] { "Ordre ID", "Date", "Total Price", "Betalt"};
 
-	public void setData(Map<String, Account> db) {
+	public void setData(Map<Integer, Order> db) {
 		this.db = db;
 	}
 
@@ -29,29 +29,28 @@ public class CustomerOrderTableModel extends AbstractTableModel {
 		return db.size();
 	}
 
-	public String removeRow(int row) {
+	public int removeRow(int row) {
 		fireTableRowsDeleted(row, row);
-		String[] accountIdArray = db.keySet().toArray(new String[db.keySet().size()]);
-		Account customer = db.get(accountIdArray[row]);
-		return customer.getPhone();
+		Integer[] accountIdArray = db.keySet().toArray(new Integer[db.keySet().size()]);
+		Order order = db.get(accountIdArray[row]);
+		return order.getId();
 	}
 
 	@Override
 	public Object getValueAt(int row, int col) {
 
-		String[] accountIdArray = db.keySet().toArray(new String[db.keySet().size()]);
-		Account customer = db.get(accountIdArray[row]);
+		Integer[] accountIdArray = db.keySet().toArray(new Integer[db.keySet().size()]);
+		Order order = db.get(accountIdArray[row]);
 		switch (col) {
 		case 0:
-			return customer.getName();
+			return order.getId();
 		case 1:
-			return customer.getAddress();
+			return order.getDate();
 		case 2:
-			return customer.getZip();
+			return order.getTotalPrice();
 		case 3:
-			return customer.getCity();
-		case 4:
-			return customer.getPhone();
+			return order.getbetalt();
+		
 		}
 
 		return null;
