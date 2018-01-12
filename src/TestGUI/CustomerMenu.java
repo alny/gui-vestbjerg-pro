@@ -7,8 +7,12 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Map;
 
+import javax.annotation.processing.SupportedSourceVersion;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -34,7 +38,7 @@ import java.awt.Rectangle;
 import java.awt.ComponentOrientation;
 import javax.swing.JScrollBar;
 
-public class CustomerMenu extends JPanel {
+public class CustomerMenu extends JPanel{
 
 	private AccountController accountCtr;
 	private JTabbedPane tabbedPane;
@@ -196,10 +200,26 @@ public class CustomerMenu extends JPanel {
 		Kunde.add(btnTilbageTilOversigt);
 		
 		table_1 = new JTable();
+		//table_1.setEnabled(false);
+		//table_1.setRowSelectionAllowed(true);
+		table_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if(arg0.getClickCount()==2) {
+			System.out.println("test");
+				}
+			}
+			
+		});
 		JScrollPane sp = new JScrollPane();
 		sp.setBounds(88, 251, 452, 155);
 		sp.setViewportView(table_1);
 		panel_1.add(sp);
+	
+
+		
+		
+		
 		
 	
 		
@@ -284,6 +304,8 @@ public class CustomerMenu extends JPanel {
 								String city =  accountCtr.findCustomer(getPhone).getCity();
 								phone = getPhone;
 								table_1.setModel(orderTable(accountCtr.getOrders(phone)));
+						
+							    
 								
 								
 								nameField.setText(name);
@@ -419,15 +441,29 @@ public class CustomerMenu extends JPanel {
 	}
 	
 	public TableModel orderTable(Map<Integer, Order> map) {
+		
 
-		DefaultTableModel model = new DefaultTableModel(new Object[] { "Order ID", "Date", "Total Price","Betalt"},
-				0);
+		DefaultTableModel model = new DefaultTableModel(new Object[] { "Order ID", "Date", "Total Price","Betalt"},	0) {
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		       //all cells false
+		       return false;
+		    }	
+			
+		
+		};
+		
+		
 		for (Map.Entry<Integer, Order> entry : map.entrySet()) {
 
 			model.addRow(new Object[] { entry.getValue().getId(), entry.getValue().getDate(),
 					entry.getValue().getTotalPrice(), entry.getValue().getbetalt(),});
 		}
-		return model;
+		
+		
+	return model;
 
 	}
+	
+
 }
