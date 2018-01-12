@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collections;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -25,6 +26,7 @@ import ControllerLayer.AccountController;
 import ControllerLayer.LoanController;
 import ControllerLayer.ProductController;
 import ModelLayer.Account;
+import ModelLayer.Item;
 import ModelLayer.Loan;
 import ModelLayer.Product;
 
@@ -47,6 +49,7 @@ public class LoanMenuFuckSwing extends JPanel {
 	private boolean status = false;
 	private JDialog dialog;
 	private int id;
+	private int gettingId;
 	private String phone;
 	private JLabel label;
 	private JLabel label_2;
@@ -67,6 +70,7 @@ public class LoanMenuFuckSwing extends JPanel {
 		accountCtr.createAccount("Findus", "Yolovej 32", "2100", "København", "321", "type");
 		accountCtr.createAccount("Finn", "Yolovej 32", "6000", "Århus", "333", "type");
 		productCtr.createUniqueProduct(555, "Traktor", "Fed Traktor", 500.00, 1, 2, 4);
+		productCtr.createItem(555, "Traktor", "Fed Traktor", 500.00, true);
 		productCtr.createItem(555, "Traktor", "Fed Traktor", 500.00, true);
 		productCtr.createItem(555, "Traktor", "Fed Traktor", 500.00, true);
 		productCtr.createItem(555, "Traktor", "Fed Traktor", 500.00, true);
@@ -167,10 +171,12 @@ public class LoanMenuFuckSwing extends JPanel {
 		JPanel panel = new JPanel();
 		JPanel panel_2 = new JPanel();
 		loanPanel.add(panel, BorderLayout.CENTER);
-
+		
+	
 		itemTable = new JTable();
-
-		itemTable.setModel(itemTable());
+		//	Map<Integer, Item> loanMap = loanCtr.findLoan(gettingId).getItemsOnLoan();
+		//	itemTable.setModel(itemTable());
+		
 		JScrollPane sp = new JScrollPane();
 		sp.setBounds(88, 251, 452, 155);
 		sp.setViewportView(itemTable);
@@ -256,7 +262,6 @@ public class LoanMenuFuckSwing extends JPanel {
 		btnAfslutSalg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				findCustomerLoans();
-				
 				tabbedPane.setEnabledAt(1, false);
 				
 			}
@@ -331,7 +336,7 @@ public class LoanMenuFuckSwing extends JPanel {
 		int day = Integer.parseInt(textField.getText());
 		String phone = textField_1.getText();
 		System.out.println(day);
-		if (JOptionPane.showConfirmDialog(null, "Bekråft Oprettelse?", "Advarsel",
+		if (JOptionPane.showConfirmDialog(null, "Bekræft Oprettelse?", "Advarsel",
 				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 			id = loanCtr.createLoan(day, phone);
 			System.out.println(id);
@@ -385,6 +390,7 @@ public class LoanMenuFuckSwing extends JPanel {
 				int serial = Integer.parseInt(textField_6.getText());
 				System.out.println(serial);
 				System.out.println(id);
+				System.out.println(barcode);
 				loanCtr.addItem(id, barcode, serial);
 				Product productObj = productCtr.findSpecificProduct(barcode);
 
@@ -404,11 +410,13 @@ public class LoanMenuFuckSwing extends JPanel {
 	}
 	
 	public void showCustomerLoansDialog(Account account) {
-		dialog = new JDialog();
+		JDialog dialog = new JDialog();
 
 		dialog.setBounds(100, 100, 580, 400);
 		dialog.setVisible(true);
-
+		
+	
+		
 		JPanel panel_1 = new JPanel();
 		dialog.getContentPane().add(panel_1, BorderLayout.CENTER);
 		panel_1.setLayout(null);
@@ -421,12 +429,14 @@ public class LoanMenuFuckSwing extends JPanel {
 		loanId.setBounds(253, 56, 210, 32);
 		panel_1.add(loanId);
 		loanId.setColumns(10);
-		
+		int index = 110;
 		for (Map.Entry<Integer, Loan> entry : account.getLoans().entrySet()) {
 			String loanIds = Integer.toString(entry.getValue().getId());
-			JLabel label = new JLabel(loanIds);
-			label.setBounds(253, 113, 210, 16);
+			JLabel label = new JLabel();
+			label.setText(loanIds);
+			label.setBounds(253, index, 210, 16);
 			panel_1.add(label);
+			index += 20;
 		}
 		
 		JLabel label_1 = new JLabel("Liste af Låne IDs");
@@ -437,12 +447,20 @@ public class LoanMenuFuckSwing extends JPanel {
 		JButton btnOpretOrdre = new JButton("Vis Lån");
 		btnOpretOrdre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// createLoan();
-				// setCustomerInfo();
+				showCustomerLoans();				
+				dialog.setVisible(false);
+				dialog.dispose();
 			}
 		});
 		btnOpretOrdre.setBounds(12, 315, 157, 25);
 		panel_1.add(btnOpretOrdre);
+	}
+	
+	public void showCustomerLoans() {
+		gettingId = Integer.parseInt(loanId.getText());
+		Map<Integer, Item> loanMap = loanCtr.findLoan(gettingId).getItemsOnLoan();
+		itemTable.setModel(itemTable(loanMap));
+		tabbedPane.setSelectedIndex(2);
 	}
 	
 	public void findCustomerLoans() {
@@ -490,6 +508,22 @@ public class LoanMenuFuckSwing extends JPanel {
 		return model;
 
 	}
+	
+	public TableModel itemTable(Map<Integer, Item> map) {
+
+		DefaultTableModel model = new DefaultTableModel(new Object[] { "Serie Nr", "Navn", "Beskrivelse", "Pris", "Antal" },
+				0);
+		for (Map.Entry<Integer, Item> entry : map.entrySet()) {
+
+			model.addRow(new Object[] { entry.getValue().getSerial(), entry.getValue().getName(),
+					entry.getValue().getDescription(), entry.getValue().getPrice(), 1 });
+		}
+		System.out.println(model);
+		return model;
+		
+		
+	}
+
 
 	public TableModel customerTable(Map<String, Account> map) {
 

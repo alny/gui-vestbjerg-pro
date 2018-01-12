@@ -73,6 +73,8 @@ public class LoanContainer {
 	public Loan findLoan(int id) {
 		return loan.get(id);
 	}
+	
+	
 
 	/**
 	 * tilføjer et item til et lån på låns id og tager et item objekt

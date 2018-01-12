@@ -1,6 +1,7 @@
 package ModelLayer;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Date;
 import java.util.Calendar;
 
@@ -74,4 +75,8 @@ public class Loan {
 	public Date getDate() {
 		return returnDate;
 	}
+	
+	public Map<Integer, Item> getItemsOnLoan(){
+    	return itemMap;
+    }
 }
