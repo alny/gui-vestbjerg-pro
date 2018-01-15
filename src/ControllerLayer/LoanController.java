@@ -1,6 +1,8 @@
 package ControllerLayer;
 import java.util.Date;
+import java.util.Map;
 
+import ModelLayer.Item;
 import ModelLayer.Loan;
 import ModelLayer.LoanContainer;
 
@@ -50,5 +52,13 @@ public class LoanController{
     public Date getDate(int id){
         return loanCon.getDate(id);
     }
+    
+    public Loan findLoan(int id){
+        return loanCon.findLoan(id);
+    }
+    
+//    public Map<Integer, Item> getItemsOnLoan(){
+//    	return loanCon.get;
+//    }
 
 }
