@@ -465,5 +465,29 @@ public class CustomerMenu extends JPanel{
 
 	}
 	
+public TableModel orderItemTable(Map<Integer, Order> map) {
+		
+
+		DefaultTableModel model = new DefaultTableModel(new Object[] { "Order ID", "Date", "Total Price","Betalt"},	0) {
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		       //all cells false
+		       return false;
+		    }	
+			
+		
+		};
+		
+		
+		for (Map.Entry<Integer, Order> entry : map.entrySet()) {
+
+			model.addRow(new Object[] { entry.getValue().getId(), entry.getValue().getDate(),
+					entry.getValue().getTotalPrice(), entry.getValue().getbetalt(),});
+		}
+		
+		
+	return model;
+
+	}
 
 }
