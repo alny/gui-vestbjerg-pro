@@ -65,6 +65,8 @@ public class CustomerMenu extends JPanel{
 	private JTable table;
 	private JPanel panel_1;
 	private JTable table_1;
+	private String tilgode;
+	private JLabel lblNewLabel;
 
 	public CustomerMenu(JPanel mainPanel, CardLayout cardLayout, AccountController aCtr, OrderController oCtr) {
 		parentPanel = mainPanel;
@@ -199,6 +201,14 @@ public class CustomerMenu extends JPanel{
 		btnTilbageTilOversigt.setBounds(14, 400, 143, 23);
 		Kunde.add(btnTilbageTilOversigt);
 		
+		JLabel lblKundeTilgodehavende = new JLabel("Kunde Tilgodehavende:");
+		lblKundeTilgodehavende.setBounds(36, 283, 164, 14);
+		Kunde.add(lblKundeTilgodehavende);
+		
+		lblNewLabel = new JLabel("ingen kunde");
+		lblNewLabel.setBounds(210, 283, 79, 14);
+		Kunde.add(lblNewLabel);
+		
 		table_1 = new JTable();
 		//table_1.setEnabled(false);
 		//table_1.setRowSelectionAllowed(true);
@@ -302,6 +312,9 @@ public class CustomerMenu extends JPanel{
 								String adress = accountCtr.findCustomer(getPhone).getAddress();
 								String zip =  accountCtr.findCustomer(getPhone).getZip();
 								String city =  accountCtr.findCustomer(getPhone).getCity();
+								double tilgode1 = accountCtr.findCustomer(getPhone).customerReceivable();
+								tilgode = Double.toString(tilgode1);
+								lblNewLabel.setText(tilgode);
 								phone = getPhone;
 								table_1.setModel(orderTable(accountCtr.getOrders(phone)));
 						
@@ -489,5 +502,4 @@ public TableModel orderItemTable(Map<Integer, Order> map) {
 	return model;
 
 	}
-
 }
