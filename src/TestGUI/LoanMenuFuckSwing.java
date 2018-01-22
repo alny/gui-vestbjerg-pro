@@ -74,9 +74,11 @@ public class LoanMenuFuckSwing extends JPanel {
 		productCtr.createItem(555, "Traktor", "Fed Traktor", 500.00, true);
 		productCtr.createItem(555, "Traktor", "Fed Traktor", 500.00, true);
 		productCtr.createItem(555, "Traktor", "Fed Traktor", 500.00, true);
+		productCtr.createItem(555, "Traktor", "Fed Traktor", 500.00, true);
 		loanCtr.createLoan(5, "123");
 		loanCtr.createLoan(2, "321");
 		loanCtr.addItem(1001, 555, 1001);
+		loanCtr.addItem(1000, 555, 1000);
 		init();
 	}
 
@@ -174,8 +176,10 @@ public class LoanMenuFuckSwing extends JPanel {
 		
 	
 		itemTable = new JTable();
-		//	Map<Integer, Item> loanMap = loanCtr.findLoan(gettingId).getItemsOnLoan();
-		//	itemTable.setModel(itemTable());
+//		Map<Integer, Item> loanMap = loanCtr.findLoan(gettingId).getItemsOnLoan();
+//		System.out.println(loanMap);
+//		itemTable.setModel(itemTable(loanMap));
+		
 		
 		JScrollPane sp = new JScrollPane();
 		sp.setBounds(88, 251, 452, 155);
@@ -388,10 +392,12 @@ public class LoanMenuFuckSwing extends JPanel {
 		btnOpretOrdre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int serial = Integer.parseInt(textField_6.getText());
+				
+				int specificId = Integer.parseInt(loanId.getText());
 				System.out.println(serial);
-				System.out.println(id);
+				System.out.println(specificId);
 				System.out.println(barcode);
-				loanCtr.addItem(id, barcode, serial);
+				loanCtr.addItem(specificId, barcode, serial);
 				Product productObj = productCtr.findSpecificProduct(barcode);
 
 				int tBarcode = productObj.getBarcode();
@@ -414,8 +420,6 @@ public class LoanMenuFuckSwing extends JPanel {
 
 		dialog.setBounds(100, 100, 580, 400);
 		dialog.setVisible(true);
-		
-	
 		
 		JPanel panel_1 = new JPanel();
 		dialog.getContentPane().add(panel_1, BorderLayout.CENTER);
@@ -501,13 +505,6 @@ public class LoanMenuFuckSwing extends JPanel {
 		total += multiply;
 		label_6.setText(String.valueOf(total));
 	}
-
-	public TableModel itemTable() {
-		DefaultTableModel model = new DefaultTableModel(
-				new Object[] { "Stregkode", "Navn", "Beskrivelse", "Pris", "Antal" }, 0);
-		return model;
-
-	}
 	
 	public TableModel itemTable(Map<Integer, Item> map) {
 
@@ -520,7 +517,6 @@ public class LoanMenuFuckSwing extends JPanel {
 		}
 		System.out.println(model);
 		return model;
-		
 		
 	}
 
