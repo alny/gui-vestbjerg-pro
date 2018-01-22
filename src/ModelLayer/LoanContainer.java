@@ -2,6 +2,7 @@ package ModelLayer;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Loancontainer står for at holde alle lån, søge igennem dem og lave lån.
@@ -47,8 +48,8 @@ public class LoanContainer {
 	 * @param id
 	 *            på lånet
 	 */
-	public void returnLoan(int id) {
-		findLoan(id).returnItem(id);
+	public void returnLoan(Loan loan) {
+		this.loan.remove(loan.getId(), loan);
 	}
 
 	/**

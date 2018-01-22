@@ -3,10 +3,8 @@ package TestGUI;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.FlowLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collections;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -44,10 +42,9 @@ public class LoanMenuFuckSwing extends JPanel {
 	private JTextField loanId;
 	private JTextField textField_1;
 	private JTextField textField_4;
-	private JTextField textField_5;
 	private JTextField textField_6;
-	private boolean status = false;
 	private JDialog dialog;
+	private boolean status = false;
 	private int id;
 	private int gettingId;
 	private String phone;
@@ -131,6 +128,11 @@ public class LoanMenuFuckSwing extends JPanel {
 		mainPanel.add(btnTilbage);
 
 		JButton button = new JButton("Returner L\u00E5n");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tabbedPane.setSelectedIndex(1);
+			}
+		});
 		button.setBounds(454, 192, 143, 64);
 		mainPanel.add(button);
 
@@ -176,10 +178,6 @@ public class LoanMenuFuckSwing extends JPanel {
 		
 	
 		itemTable = new JTable();
-//		Map<Integer, Item> loanMap = loanCtr.findLoan(gettingId).getItemsOnLoan();
-//		System.out.println(loanMap);
-//		itemTable.setModel(itemTable(loanMap));
-		
 		
 		JScrollPane sp = new JScrollPane();
 		sp.setBounds(88, 251, 452, 155);
@@ -265,6 +263,7 @@ public class LoanMenuFuckSwing extends JPanel {
 		JButton btnAfslutSalg = new JButton("Se Kundelån");
 		btnAfslutSalg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				status = false;
 				findCustomerLoans();
 				tabbedPane.setEnabledAt(1, false);
 				
@@ -279,6 +278,16 @@ public class LoanMenuFuckSwing extends JPanel {
 				tabbedPane.setSelectedIndex(0);
 			}
 		});
+		
+		JButton btnReturnerLn = new JButton("Returner L\u00E5n");
+		btnReturnerLn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				status = true;
+				findCustomerLoans();
+				tabbedPane.setEnabledAt(1, false);
+			}
+		});
+		panel_1.add(btnReturnerLn);
 		panel_1.add(btnAnnuller);
 		
 		customerTable = new JTable();	
@@ -350,6 +359,8 @@ public class LoanMenuFuckSwing extends JPanel {
 			dialog.dispose();
 		}
 	}
+	
+	
 
 	public void setCustomerInfo() {
 		Account accountObj = accountCtr.findCustomer(phone);
@@ -467,16 +478,73 @@ public class LoanMenuFuckSwing extends JPanel {
 		tabbedPane.setSelectedIndex(2);
 	}
 	
+	public void returnLoanDialog(Account account, int row) {
+		JDialog dialog1 = new JDialog();
+
+		dialog1.setBounds(100, 100, 580, 400);
+		dialog1.setVisible(true);
+		
+		JPanel panel_1 = new JPanel();
+		dialog1.getContentPane().add(panel_1, BorderLayout.CENTER);
+		panel_1.setLayout(null);
+
+		JLabel lblTelefon = new JLabel("Angiv ID som skal returnes:");
+		lblTelefon.setBounds(90, 59, 206, 36);
+		panel_1.add(lblTelefon);
+
+		loanId = new JTextField();
+		loanId.setBounds(253, 56, 210, 32);
+		panel_1.add(loanId);
+		loanId.setColumns(10);	
+		
+		int index = 110;
+		for (Map.Entry<Integer, Loan> entry : account.getLoans().entrySet()) {
+			String loanIds = Integer.toString(entry.getValue().getId());
+			JLabel label = new JLabel();
+			label.setText(loanIds);
+			label.setBounds(253, index, 210, 16);
+			panel_1.add(label);
+			index += 20;
+		}
+		
+		JLabel label_1 = new JLabel("Liste af Låne IDs");
+		label_1.setBounds(253, 93, 210, 16);
+		panel_1.add(label_1);
+		
+
+		JButton btnOpretOrdre = new JButton("Returner");
+		btnOpretOrdre.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				returnLoanConfirmation(account, row);				
+				dialog1.setVisible(false);
+				dialog1.dispose();
+			}
+		});
+		btnOpretOrdre.setBounds(12, 315, 157, 25);
+		panel_1.add(btnOpretOrdre);
+	}
+	
+	public void returnLoanConfirmation(Account account, int row) {
+		int returnId = Integer.parseInt(loanId.getText());
+		Account accountObj = accountCtr.findCustomer(account.getPhone());
+		loanCtr.returnLoan(accountObj.getLoans().get(returnId));
+		DefaultTableModel model = (DefaultTableModel) customerTable.getModel();
+		model.removeRow(row);
+	}
+	
 	public void findCustomerLoans() {
 		int row = customerTable.getSelectedRow();
 		if (row == -1) {
 			JOptionPane.showMessageDialog(null, "Du er en skovl, vælg en person");
-		} else {
+		} else if(status == false) {
 			String phone = customerTable.getModel().getValueAt(row, 4).toString();
 			Account accObj = accountCtr.findCustomer(phone);
 			showCustomerLoansDialog(accObj);
-			System.out.println(accObj);
-		}	
+		} else if(status == true) {
+			String phone = customerTable.getModel().getValueAt(row, 4).toString();
+			Account accObj = accountCtr.findCustomer(phone);
+			returnLoanDialog(accObj, row);
+		}
 		
 	}
 

@@ -30,6 +30,10 @@ public class LoanController{
         return loan.getId();
     }
     
+    public void returnLoan(Loan loan) {
+    	loanCon.returnLoan(loan);
+    }
+    
     public void addItem(int id, int bar, int serial){
         loanCon.addItem(id, pController.saleItem(bar, serial));
     }
