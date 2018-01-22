@@ -428,7 +428,7 @@ public class CustomerMenu extends JPanel{
 				String city = textField_3.getText();
 				String phone = textField_4.getText();
 				String type = textField_5.getText();
-
+				accountCtr.createAccount(name, address, zip, city, phone, type);
 				try {
 					accountCtr.createDBAccount(name, address, zip, city, phone, type);
 				} catch (SQLException e1) {

@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import ModelLayer.Account;
+import ModelLayer.Customer;
 
 public class CustomerStorage {
 
@@ -14,18 +14,19 @@ public class CustomerStorage {
 		dbCon = new DBConnector();
 	}
 
-	public boolean saveCustomer(Account account) throws SQLException {
+	public boolean saveCustomer(Customer customer) throws SQLException {
 
 		try (Connection connection = dbCon.createConnection()) {
-			final String sql = " insert into customer (id, name, address, zip, city, phone)"
-					+ " values (?, ?, ?, ?, ?, ?)";
+			final String sql = " insert into customer (id, name, address, zip, city, phone, type)"
+					+ " values (?, ?, ?, ?, ?, ?, ?)";
 			try (PreparedStatement preparedStmt = connection.prepareStatement(sql)) {
-				preparedStmt.setInt(1, account.getAccId());
-				preparedStmt.setString(2, account.getName());
-				preparedStmt.setString(3, account.getAddress());
-				preparedStmt.setString(4, account.getZip());
-				preparedStmt.setString(5, account.getCity());
-				preparedStmt.setString(6, account.getPhone());
+				preparedStmt.setInt(1, customer.getAccId());
+				preparedStmt.setString(2, customer.getName());
+				preparedStmt.setString(3, customer.getAddress());
+				preparedStmt.setString(4, customer.getZip());
+				preparedStmt.setString(5, customer.getCity());
+				preparedStmt.setString(6, customer.getPhone());
+				preparedStmt.setString(7, customer.getType());
 
 				preparedStmt.execute();
 				connection.close();

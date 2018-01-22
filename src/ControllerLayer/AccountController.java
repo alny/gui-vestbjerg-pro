@@ -37,7 +37,7 @@ public class AccountController {
 	}
 	
 	public String createDBAccount(String name, String address, String zip, String city, String phone, String type) throws SQLException {
-		Account customer = new Customer(name, address, zip, city, phone, type);
+		Customer customer = new Customer(name, address, zip, city, phone, type);
 		System.out.println(name + address + zip + city + phone);
 		customerStorage.saveCustomer(customer);
 		return "Succes: konto oprettet";
