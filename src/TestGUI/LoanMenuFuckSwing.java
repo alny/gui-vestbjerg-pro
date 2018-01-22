@@ -63,19 +63,19 @@ public class LoanMenuFuckSwing extends JPanel {
 		loanCtr = lCtr;
 		accountCtr = aCtr;
 		productCtr = pCtr;
-		accountCtr.createAccount("Erik", "Erikvej 32", "9000", "Aalborg", "123", "type");
-		accountCtr.createAccount("Findus", "Yolovej 32", "2100", "København", "321", "type");
-		accountCtr.createAccount("Finn", "Yolovej 32", "6000", "Århus", "333", "type");
-		productCtr.createUniqueProduct(555, "Traktor", "Fed Traktor", 500.00, 1, 2, 4);
-		productCtr.createItem(555, "Traktor", "Fed Traktor", 500.00, true);
-		productCtr.createItem(555, "Traktor", "Fed Traktor", 500.00, true);
-		productCtr.createItem(555, "Traktor", "Fed Traktor", 500.00, true);
-		productCtr.createItem(555, "Traktor", "Fed Traktor", 500.00, true);
-		productCtr.createItem(555, "Traktor", "Fed Traktor", 500.00, true);
-		loanCtr.createLoan(5, "123");
-		loanCtr.createLoan(2, "321");
-		loanCtr.addItem(1001, 555, 1001);
-		loanCtr.addItem(1000, 555, 1000);
+//		accountCtr.createAccount("Erik", "Erikvej 32", "9000", "Aalborg", "123", "type");
+//		accountCtr.createAccount("Findus", "Yolovej 32", "2100", "København", "321", "type");
+//		accountCtr.createAccount("Finn", "Yolovej 32", "6000", "Århus", "333", "type");
+//		productCtr.createUniqueProduct(555, "Traktor", "Fed Traktor", 500.00, 1, 2, 4);
+//		productCtr.createItem(555, "Traktor", "Fed Traktor", 500.00, true);
+//		productCtr.createItem(555, "Traktor", "Fed Traktor", 500.00, true);
+//		productCtr.createItem(555, "Traktor", "Fed Traktor", 500.00, true);
+//		productCtr.createItem(555, "Traktor", "Fed Traktor", 500.00, true);
+//		productCtr.createItem(555, "Traktor", "Fed Traktor", 500.00, true);
+//		loanCtr.createLoan(5, "123");
+//		loanCtr.createLoan(2, "321");
+//		loanCtr.addItem(1001, 555, 1001);
+//		loanCtr.addItem(1000, 555, 1000);
 		init();
 	}
 

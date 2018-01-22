@@ -70,7 +70,7 @@ public class MainMenuUI {
 	}
 
 	public void cretadummydata() {
-		customerMenu.cfretedummy();
+//		customerMenu.cfretedummy();
 		productMenu.cretedummy();
 		orderMenu.createDummy();
 

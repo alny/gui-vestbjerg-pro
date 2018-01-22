@@ -26,9 +26,9 @@ public abstract class Account
         this.city = city;
         this.phone = phone;
         accountId = counter++;
-        order = new HashMap<Integer, Order>();
-        loans = new HashMap<Integer, Loan>();
-        discount = 1;
+//        order = new HashMap<Integer, Order>();
+//        loans = new HashMap<Integer, Loan>();
+//        discount = 1;
     }
 
     //set methods

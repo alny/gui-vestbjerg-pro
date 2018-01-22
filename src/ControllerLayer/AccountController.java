@@ -1,13 +1,14 @@
 package ControllerLayer;
 
-import ModelLayer.AccountContainer;
-
+import java.sql.SQLException;
 import java.util.Map;
 
+import Database.CustomerStorage;
 import ModelLayer.Account;
+import ModelLayer.AccountContainer;
 import ModelLayer.Customer;
-import ModelLayer.Order;
 import ModelLayer.Loan;
+import ModelLayer.Order;
 
 /**
  * Lav en beskrivelse af klassen CustomerController her.
@@ -17,12 +18,14 @@ import ModelLayer.Loan;
  */
 public class AccountController {
 	private AccountContainer accountContainer;
+	private CustomerStorage customerStorage;
 
 	/**
 	 * Konstruktør for objekter af klassen CustomerController
 	 */
 	public AccountController() {
 		accountContainer = AccountContainer.getInstance();
+		customerStorage = new CustomerStorage();
 	}
 
 	public String updatePhone(String phone, String newPhone) {
@@ -31,6 +34,13 @@ public class AccountController {
 
 	public String updateAddress(String phone, String newAddress) {
 		return accountContainer.updateaddress(phone, newAddress);
+	}
+	
+	public String createDBAccount(String name, String address, String zip, String city, String phone, String type) throws SQLException {
+		Account customer = new Customer(name, address, zip, city, phone, type);
+		System.out.println(name + address + zip + city + phone);
+		customerStorage.saveCustomer(customer);
+		return "Succes: konto oprettet";
 	}
 
 	public String createAccount(String name, String address, String zip, String city, String phone, String type) {
@@ -71,19 +81,19 @@ public class AccountController {
 	/**
 	 * opretter dummy accounts
 	 */
-	public void createdummydata() {
-		Integer i = 1;
-		int index = 0;
-		String k = "1";
-
-		while (index < 10) {
-
-			createAccount("Lars", "address", "zip", "city", k, "type");
-			i++;
-			k = i.toString();
-			index++;
-		}
-	}
+//	public void createdummydata() {
+//		Integer i = 1;
+//		int index = 0;
+//		String k = "1";
+//
+//		while (index < 10) {
+//
+//			createAccount("Lars", "address", "zip", "city", k, "type");
+//			i++;
+//			k = i.toString();
+//			index++;
+//		}
+//	}
 
 	public void setDiscount(String phone, double s) {
 		accountContainer.setDiscount(phone, s);

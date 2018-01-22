@@ -61,7 +61,7 @@ public class CustomerMenu {
         System.out.println("Kunde type:" );
         String type = keyboard.next();
 
-        System.out.println("### " +accountCtr.createAccount(name, address, zip, city, phone, type)+" ###");
+//        System.out.println("### " +accountCtr.createAccount(name, address, zip, city, phone, type)+" ###");
 
         String vent = keyboard.next();
         System.out.println(" ");
@@ -107,9 +107,9 @@ public class CustomerMenu {
         String vent = keyboard.next();
     }
 
-    public void cfretedummy(){
-        accountCtr.createdummydata();    
-    }
+//    public void cfretedummy(){
+//        accountCtr.createdummydata();    
+//    }
 
     public void setDiscount(){
 
