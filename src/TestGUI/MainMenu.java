@@ -80,7 +80,7 @@ public class MainMenu extends JFrame {
 		menuPanel.add(lblVelkommenTilVestbjerg);
 
 		JButton btnKunder = new JButton("Kunder");
-		btnKunder.addActionListener(new ActionListener() {
+		btnKunder.addActionListener(	new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cl.show(parentPanel, "2");
 			}

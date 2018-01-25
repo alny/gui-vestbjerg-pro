@@ -7,8 +7,12 @@ import java.sql.Statement;
 
 public class DBConnector {
 
-	private static final String driver = "com.mysql.jdbc.Driver";
-	private static final String URL = "jdbc:mysql://localhost:3306/vestbjergdb?autoReconnect=true&useSSL=false";
+	private static final String ms_driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+//	private static final String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+//	private static final String URL = "jdbc:mysql://localhost:/vestbjerg?autoReconnect=true&useSSL=false";
+	private static final String URL_MS = "jdbc:sqlserver://77.68.231.82;databaseName=DMAA0917;user=root;password=toor";
+	
+	
 	private static final String username = "root";
 	private static final String pw = "toor";
 
@@ -17,12 +21,12 @@ public class DBConnector {
 		Statement stmt = null;
 		try {
 			// Register JDBC driver
-			Class.forName(driver);
+			Class.forName(ms_driver);
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 		// Open a connection
-		connection = DriverManager.getConnection(URL, username, pw);
+		connection = DriverManager.getConnection(URL_MS, username, pw);
 		System.out.println("Connected to DB " + connection);
 //		stmt = connection.createStatement();
 //
@@ -43,7 +47,7 @@ public class DBConnector {
 
 	public Connection createConnection() throws SQLException {
 
-		Connection connection = DriverManager.getConnection(URL, username, pw);
+		Connection connection = DriverManager.getConnection(URL_MS, username, pw);
 
 		if (connection == null) {
 			throw new SQLException("Could not connect to database");
