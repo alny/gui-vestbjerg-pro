@@ -52,6 +52,10 @@ public class AccountController {
 	public Account findCustomer(String phone) {
 		return accountContainer.findAccount(phone);
 	}
+	
+	public Map<String, Account> getDBCustomers() {
+		return customerStorage.getCustomers();
+	}
 
 	public Map<String, Account> getCustomers() {
 		return accountContainer.getAccounts();

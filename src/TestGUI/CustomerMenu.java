@@ -256,9 +256,6 @@ public class CustomerMenu extends JPanel{
 
 	public JPanel showCustomers() {
 
-//		accountCtr.createAccount("Erik", "Erikvej 32", "9000", "Aalborg", "123", "type");
-//		accountCtr.createAccount("Findus", "Yolovej 32", "2100", "København", "321", "type");
-
 		JPanel showCustomers = new JPanel();
 		showCustomers.setLayout(null);
 		showCustomers.setLayout(null);
@@ -266,7 +263,6 @@ public class CustomerMenu extends JPanel{
 		tableModel = new CustomerTableModel();
 		tableModel.setData(accountCtr.getCustomers());
 		
-	
 
 		jt = new JTable(tableModel);
 		JScrollPane sp = new JScrollPane();
@@ -429,12 +425,7 @@ public class CustomerMenu extends JPanel{
 				String phone = textField_4.getText();
 				String type = textField_5.getText();
 				accountCtr.createAccount(name, address, zip, city, phone, type);
-				try {
-					accountCtr.createDBAccount(name, address, zip, city, phone, type);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+
 				tabbedPane.setSelectedIndex(0);
 				refresh();
 			}

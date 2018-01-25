@@ -1,5 +1,3 @@
 /Database/
-/ModelLayer/
-/ControllerLayer/
+/.gitignore
 /TestGUI/
-/UILayer/
