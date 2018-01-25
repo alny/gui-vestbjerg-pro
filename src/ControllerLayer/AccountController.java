@@ -3,7 +3,6 @@ package ControllerLayer;
 import java.sql.SQLException;
 import java.util.Map;
 
-import Database.CustomerStorage;
 import ModelLayer.Account;
 import ModelLayer.AccountContainer;
 import ModelLayer.Customer;
@@ -18,14 +17,14 @@ import ModelLayer.Order;
  */
 public class AccountController {
 	private AccountContainer accountContainer;
-	private CustomerStorage customerStorage;
+//	private CustomerStorage customerStorage;
 
 	/**
 	 * Konstruktør for objekter af klassen CustomerController
 	 */
 	public AccountController() {
 		accountContainer = AccountContainer.getInstance();
-		customerStorage = new CustomerStorage();
+//		customerStorage = new CustomerStorage();
 	}
 
 	public String updatePhone(String phone, String newPhone) {
@@ -36,12 +35,12 @@ public class AccountController {
 		return accountContainer.updateaddress(phone, newAddress);
 	}
 	
-	public String createDBAccount(String name, String address, String zip, String city, String phone, String type) throws SQLException {
-		Customer customer = new Customer(name, address, zip, city, phone, type);
-		System.out.println(name + address + zip + city + phone);
-		customerStorage.saveCustomer(customer);
-		return "Succes: konto oprettet";
-	}
+//	public String createDBAccount(String name, String address, String zip, String city, String phone, String type) throws SQLException {
+//		Customer customer = new Customer(name, address, zip, city, phone, type);
+//		System.out.println(name + address + zip + city + phone);
+//		customerStorage.saveCustomer(customer);
+//		return "Succes: konto oprettet";
+//	}
 
 	public String createAccount(String name, String address, String zip, String city, String phone, String type) {
 		Account customer = new Customer(name, address, zip, city, phone, type);
@@ -53,9 +52,9 @@ public class AccountController {
 		return accountContainer.findAccount(phone);
 	}
 	
-	public Map<String, Account> getDBCustomers() {
-		return customerStorage.getCustomers();
-	}
+//	public Map<String, Account> getDBCustomers() {
+//		return customerStorage.getCustomers();
+//	}
 
 	public Map<String, Account> getCustomers() {
 		return accountContainer.getAccounts();
