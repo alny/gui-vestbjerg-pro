@@ -10,7 +10,7 @@ public class DBConnector {
 	private static final String ms_driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 //	private static final String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 //	private static final String URL = "jdbc:mysql://localhost:/vestbjerg?autoReconnect=true&useSSL=false";
-	private static final String URL_MS = "jdbc:sqlserver://77.68.231.82;databaseName=DMAA0917;user=root;password=toor";
+	
 	
 	
 	private static final String username = "root";
