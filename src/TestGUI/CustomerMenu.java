@@ -478,7 +478,6 @@ public class CustomerMenu extends JPanel {
 					entry.getValue().getZip(), entry.getValue().getCity(), entry.getValue().getPhone() });
 		}
 		return model;
-		
 
 	}
 }

@@ -21,15 +21,16 @@ public class CustomerStorage {
 	public boolean saveCustomer(Customer customer) throws SQLException {
 
 		try (Connection connection = dbCon.createConnection()) {
-			final String sql = " insert into customer (name, address, zip, city, phone, type)"
-					+ " values (?, ?, ?, ?, ?, ?)";
+			final String sql = " insert into customer (id, name, address, zip, city, phone, type)"
+					+ " values (?, ?, ?, ?, ?, ?, ?)";
 			try (PreparedStatement preparedStmt = connection.prepareStatement(sql)) {
-				preparedStmt.setString(1, customer.getName());
-				preparedStmt.setString(2, customer.getAddress());
-				preparedStmt.setString(3, customer.getZip());
-				preparedStmt.setString(4, customer.getCity());
-				preparedStmt.setString(5, customer.getPhone());
-				preparedStmt.setString(6, customer.getType());
+				preparedStmt.setInt(1, customer.getAccId());
+				preparedStmt.setString(2, customer.getName());
+				preparedStmt.setString(3, customer.getAddress());
+				preparedStmt.setString(4, customer.getZip());
+				preparedStmt.setString(5, customer.getCity());
+				preparedStmt.setString(6, customer.getPhone());
+				preparedStmt.setString(7, customer.getType());
 
 				preparedStmt.execute();
 				connection.close();
