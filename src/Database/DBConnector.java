@@ -12,6 +12,7 @@ public class DBConnector {
 //	private static final String URL = "jdbc:mysql://localhost:/vestbjerg?autoReconnect=true&useSSL=false";
 	
 	
+	
 
 	public static void main(String[] args) throws SQLException {
 		Connection connection = null;
@@ -23,22 +24,22 @@ public class DBConnector {
 			System.out.println(e);
 		}
 		// Open a connection
-		connection = DriverManager.getConnection(URL_MS);
-		System.out.println("Connected to DB " + connection);
-		stmt = connection.createStatement();
-
-		String sql = "CREATE TABLE CUSTOMER " + 
-					 "(id INT, " + 
-					 "name VARCHAR(255), " + 
-					 "address VARCHAR(255), " + 
-					 "zip VARCHAR(255), " + 
-					 "city VARCHAR(255), " + 
-					 "phone VARCHAR(255), " +
-				     "type VARCHAR(255), " +
-					 "PRIMARY KEY ( id ))";
-
-		stmt.executeUpdate(sql);
-		System.out.println("Created table in given database...");
+//		connection = DriverManager.getConnection(URL_MS);
+//		System.out.println("Connected to DB " + connection);
+//		stmt = connection.createStatement();
+//
+//		String sql = "CREATE TABLE CUSTOMER " + 
+//					 "(id INT, " + 
+//					 "name VARCHAR(255), " + 
+//					 "address VARCHAR(255), " + 
+//					 "zip VARCHAR(255), " + 
+//					 "city VARCHAR(255), " + 
+//					 "phone VARCHAR(255), " +
+//				     "type VARCHAR(255), " +
+//					 "PRIMARY KEY ( id ))";
+//
+//		stmt.executeUpdate(sql);
+//		System.out.println("Created table in given database...");
 
 	}
 
