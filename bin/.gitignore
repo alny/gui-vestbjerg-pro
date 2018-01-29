@@ -1,5 +1,6 @@
-/UILayer/
-/Database/
-/TestGUI/
 /ControllerLayer/
+/Database/
+/GUILayer/
 /ModelLayer/
+/TestGUI/
+/UILayer/
