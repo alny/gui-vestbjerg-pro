@@ -21,16 +21,15 @@ public class CustomerStorage {
 	public boolean saveCustomer(Customer customer) throws SQLException {
 
 		try (Connection connection = dbCon.createConnection()) {
-			final String sql = " insert into customer (id, name, address, zip, city, phone, type)"
-					+ " values (?, ?, ?, ?, ?, ?, ?)";
+			final String sql = " insert into customer (name, address, zip, city, phone, type)"
+					+ " values (?, ?, ?, ?, ?, ?)";
 			try (PreparedStatement preparedStmt = connection.prepareStatement(sql)) {
-				preparedStmt.setInt(1, customer.getAccId());
-				preparedStmt.setString(2, customer.getName());
-				preparedStmt.setString(3, customer.getAddress());
-				preparedStmt.setString(4, customer.getZip());
-				preparedStmt.setString(5, customer.getCity());
-				preparedStmt.setString(6, customer.getPhone());
-				preparedStmt.setString(7, customer.getType());
+				preparedStmt.setString(1, customer.getName());
+				preparedStmt.setString(2, customer.getAddress());
+				preparedStmt.setString(3, customer.getZip());
+				preparedStmt.setString(4, customer.getCity());
+				preparedStmt.setString(5, customer.getPhone());
+				preparedStmt.setString(6, customer.getType());
 
 				preparedStmt.execute();
 				connection.close();
@@ -46,22 +45,6 @@ public class CustomerStorage {
 		}
 
 		return false;
-	}
-
-	private Map<String, Account> queryCustomers(PreparedStatement statement) throws SQLException {
-		HashMap<String, Account> customers = new HashMap<>();
-
-		final String sql = "SELECT * FROM CUSTOMER";
-
-		try (ResultSet rs = statement.executeQuery()) {
-			while (rs.next()) {
-				// Campaign campaign = campaignMapper.map(rs);
-				// campaigns.add(campaign);
-
-			}
-		}
-
-		return customers;
 	}
 
 	public Map<String, Account> getCustomers() {
@@ -82,17 +65,16 @@ public class CustomerStorage {
 						String phone = rs.getString("phone");
 						String type = rs.getString("type");
 
-						System.out.println("Kunde Test: " + name + " " + address + " " + zip);
 						Account customer = new Customer(name, address, zip, city, phone, type);
 						customers.put(customer.getPhone(), customer);
+						
 
 					}
 				} catch (Exception e) {
 					System.out.println(e);
 				}
-				preparedStmt.close();
+			
 				return customers;
-				
 
 			} catch (Exception e) {
 				System.out.println(e);
@@ -102,6 +84,68 @@ public class CustomerStorage {
 			System.out.println(e);
 		}
 
+		return null;
+	}
+
+	public Account findAccount(String getPhone) throws NullPointerException {
+
+		try (Connection connection = dbCon.createConnection()) {
+			final String sql = "SELECT * FROM CUSTOMER WHERE phone = ?";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, getPhone);
+
+			try (ResultSet rs = statement.executeQuery()) {
+				while (rs.next()) {
+					int id = rs.getInt("id");
+					String name = rs.getString("name");
+					String address = rs.getString("address");
+					String zip = rs.getString("zip");
+					String city = rs.getString("city");
+					String phone = rs.getString("phone");
+					String type = rs.getString("type");
+					Account customer = new Customer(name, address, zip, city, phone, type);
+				
+					return customer;
+					
+				}
+
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+		return null;
+	}
+
+	public void deleteAccount(String getPhone) throws NullPointerException {
+
+		try (Connection connection = dbCon.createConnection()) {
+			final String sql = "DELETE FROM CUSTOMER WHERE phone = ?";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, getPhone);
+			statement.executeUpdate();		
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	public String updatePhone(String getPhone, String newPhone) throws NullPointerException {
+
+		try (Connection connection = dbCon.createConnection()) {
+			final String sql = "UPDATE customer set phone = ? WHERE phone = ?";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, newPhone);
+			statement.setString(2, getPhone);
+			statement.executeUpdate();
+			
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 		return null;
 	}
 

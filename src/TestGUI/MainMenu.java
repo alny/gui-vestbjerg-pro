@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -47,8 +48,9 @@ public class MainMenu extends JFrame {
 		});
 	}
 
-	public MainMenu() {
+	public MainMenu() throws SQLException {
 		accountCtr = new AccountController();
+//		accountCtr.createdummydata();
 		orderCtr = new OrderController();
 		productCtr = new ProductController();
 		loanCtr = new LoanController();

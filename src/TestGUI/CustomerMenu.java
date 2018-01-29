@@ -24,6 +24,7 @@ import javax.swing.table.TableModel;
 
 import ControllerLayer.AccountController;
 import ControllerLayer.OrderController;
+import ModelLayer.Account;
 import ModelLayer.Order;
 import javax.swing.JSplitPane;
 import javax.swing.JOptionPane;
@@ -43,6 +44,7 @@ public class CustomerMenu extends JPanel {
 	private JTextField textField_5;
 	private CustomerTableModel tableModel;
 	private JTable jt;
+	private JTable customerTable;
 	private JLabel label;
 	private JTextField nameField;
 	private JTextField StreetField;
@@ -113,11 +115,12 @@ public class CustomerMenu extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				if (JOptionPane.showConfirmDialog(null, "Er du sikker på du vil ændre stamdata?", "Advarsel",
 						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-					accountCtr.setName(phone, nameField.getText());
-					accountCtr.setAdress(phone, StreetField.getText());
-					accountCtr.setZip(phone, ZipField.getText());
-					accountCtr.setCity(phone, cityField.getText());
-					accountCtr.updatePhone(phone, phoneField.getText());
+//					accountCtr.setName(phone, nameField.getText());
+//					accountCtr.setAdress(phone, StreetField.getText());
+//					accountCtr.setZip(phone, ZipField.getText());
+//					accountCtr.setCity(phone, cityField.getText());
+					accountCtr.updateDBPhone(phone, phoneField.getText());
+					refresh();
 					JOptionPane.showMessageDialog(null, "Kunde oplysninger opdateret");
 					tabbedPane.setSelectedIndex(0);
 				} else {
@@ -227,13 +230,15 @@ public class CustomerMenu extends JPanel {
 		showCustomers.setLayout(null);
 		showCustomers.setLayout(null);
 
-		tableModel = new CustomerTableModel();
-		tableModel.setData(accountCtr.getDBCustomers());
-
-		jt = new JTable(tableModel);
+//		tableModel = new CustomerTableModel();
+//		tableModel.setData(accountCtr.getDBCustomers());
+		
+		customerTable = new JTable();
+		refresh();
+//		jt = new JTable(tableModel);
 		JScrollPane sp = new JScrollPane();
 		sp.setBounds(0, 0, 735, 390);
-		sp.setViewportView(jt);
+		sp.setViewportView(customerTable);
 		showCustomers.add(sp);
 
 		JPanel panel = new JPanel();
@@ -249,9 +254,9 @@ public class CustomerMenu extends JPanel {
 		btnOpretKunde.setBounds(14, 400, 105, 23);
 		showCustomers.add(btnOpretKunde);
 
-		JButton btnOpret = new JButton("Slet Kunde");
-		btnOpret.setBounds(290, 400, 100, 23);
-		showCustomers.add(btnOpret);
+		JButton btnDelete = new JButton("Slet Kunde");
+		btnDelete.setBounds(290, 400, 100, 23);
+		showCustomers.add(btnDelete);
 
 		JButton btnKundeOplysninger = new JButton("Kunde Oplysninger");
 		btnKundeOplysninger.setBounds(127, 400, 153, 23);
@@ -268,19 +273,19 @@ public class CustomerMenu extends JPanel {
 		btnKundeOplysninger.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				int row = jt.getSelectedRow();
+				int row = customerTable.getSelectedRow();
 				if (row > -1) {
-					String getPhone = tableModel.removeRow(row);
-					String name = accountCtr.findCustomer(getPhone).getName();
-					String adress = accountCtr.findCustomer(getPhone).getAddress();
-					String zip = accountCtr.findCustomer(getPhone).getZip();
-					String city = accountCtr.findCustomer(getPhone).getCity();
-					double tilgode1 = accountCtr.findCustomer(getPhone).customerReceivable();
+					String getPhone = customerTable.getValueAt(row, 4).toString();
+					String name = accountCtr.findDBCustomer(getPhone).getName();
+					String adress = accountCtr.findDBCustomer(getPhone).getAddress();
+					String zip = accountCtr.findDBCustomer(getPhone).getZip();
+					String city = accountCtr.findDBCustomer(getPhone).getCity();
+					double tilgode1 = accountCtr.findDBCustomer(getPhone).customerReceivable();
 					tilgode = Double.toString(tilgode1);
 					lblNewLabel.setText(tilgode);
 					phone = getPhone;
-					table_1.setModel(orderTable(accountCtr.getOrders(phone)));
-
+//					table_1.setModel(orderTable(accountCtr.getOrders(phone)));
+//
 					nameField.setText(name);
 					StreetField.setText(adress);
 					ZipField.setText(zip);
@@ -293,12 +298,13 @@ public class CustomerMenu extends JPanel {
 
 			}
 		});
-		btnOpret.addActionListener(new ActionListener() {
+		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int row = jt.getSelectedRow();
-				String getPhone = tableModel.removeRow(row);
-				accountCtr.removeAccount(getPhone);
-				tableModel.fireTableRowsDeleted(row, row);
+				int row = customerTable.getSelectedRow();
+				String getPhone = customerTable.getValueAt(row, 4).toString();
+				accountCtr.removeDBAccount(getPhone);
+				refresh();
+//				tableModel.fireTableRowsDeleted(row, row);
 			}
 		});
 		btnOpretKunde.addActionListener(new ActionListener() {
@@ -413,7 +419,8 @@ public class CustomerMenu extends JPanel {
 	}
 
 	public void refresh() {
-		tableModel.fireTableDataChanged();
+		customerTable.setModel(customerTable(accountCtr.getDBCustomers()));
+//		tableModel.fireTableDataChanged();
 	}
 
 	public TableModel orderTable(Map<Integer, Order> map) {
@@ -442,6 +449,7 @@ public class CustomerMenu extends JPanel {
 
 		DefaultTableModel model = new DefaultTableModel(new Object[] { "Order ID", "Date", "Total Price", "Betalt" },
 				0) {
+			
 			@Override
 			public boolean isCellEditable(int row, int column) {
 				// all cells false
@@ -457,6 +465,20 @@ public class CustomerMenu extends JPanel {
 		}
 
 		return model;
+
+	}
+	
+	public TableModel customerTable(Map<String, Account> map) {
+
+		DefaultTableModel model = new DefaultTableModel(new Object[] { "Navn", "Adresse", "Post Nr", "By", "Telefon" },
+				0);
+		for (Map.Entry<String, Account> entry : map.entrySet()) {
+
+			model.addRow(new Object[] { entry.getValue().getName(), entry.getValue().getAddress(),
+					entry.getValue().getZip(), entry.getValue().getCity(), entry.getValue().getPhone() });
+		}
+		return model;
+		
 
 	}
 }

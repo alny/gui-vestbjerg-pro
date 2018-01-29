@@ -31,6 +31,10 @@ public class AccountController {
 	public String updatePhone(String phone, String newPhone) {
 		return accountContainer.updatePhone(phone, newPhone);
 	}
+	
+	public String updateDBPhone(String phone, String newPhone) {
+		return customerStorage.updatePhone(phone, newPhone);
+	}
 
 	public String updateAddress(String phone, String newAddress) {
 		return accountContainer.updateaddress(phone, newAddress);
@@ -53,6 +57,10 @@ public class AccountController {
 		return accountContainer.findAccount(phone);
 	}
 	
+	public Account findDBCustomer(String phone) {
+		return customerStorage.findAccount(phone);
+	}
+	
 	public Map<String, Account> getDBCustomers() {
 		return customerStorage.getCustomers();
 	}
@@ -67,6 +75,10 @@ public class AccountController {
 
 	public void removeAccount(String phone) {
 		accountContainer.removeAccount(phone);
+	}
+	
+	public void removeDBAccount(String phone) {
+		customerStorage.deleteAccount(phone);
 	}
 
 	public void addOrder(String phone, Order order) {
@@ -84,20 +96,21 @@ public class AccountController {
 
 	/**
 	 * opretter dummy accounts
+	 * @throws SQLException 
 	 */
-//	public void createdummydata() {
-//		Integer i = 1;
-//		int index = 0;
-//		String k = "1";
-//
-//		while (index < 10) {
-//
-//			createAccount("Lars", "address", "zip", "city", k, "type");
-//			i++;
-//			k = i.toString();
-//			index++;
-//		}
-//	}
+	public void createdummydata() throws SQLException {
+		Integer i = 1;
+		int index = 0;
+		String k = "1";
+
+		while (index < 10) {
+
+			createDBAccount("Lars", "Larsvej 1", "9000", "Aalborg", k, "type");
+			i++;
+			k = i.toString();
+			index++;
+		}
+	}
 
 	public void setDiscount(String phone, double s) {
 		accountContainer.setDiscount(phone, s);

@@ -25,7 +25,7 @@ public abstract class Account
         this.zip = zip;
         this.city = city;
         this.phone = phone;
-        accountId = counter++;
+//        accountId = counter++;
         order = new HashMap<Integer, Order>();
         loans = new HashMap<Integer, Loan>();
         discount = 1;
